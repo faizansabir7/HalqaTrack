@@ -1,0 +1,16 @@
+# Netlify Configuration
+# This file configures the build and deployment settings for Netlify.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment Variables
+# You'll need to set these in Netlify:
+# - VITE_SUPABASE_URL - Your Supabase project URL
+# - VITE_SUPABASE_ANON_KEY - Your Supabase anonymous key
