@@ -11,24 +11,35 @@
     z-index: 9999;
 }
 
-/* Cursor is already defined at top of file */
+/* Scroll Containment Setup */
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+    /* Prevent body scroll */
+}
 
 .app-layout {
-    min-height: 100vh;
-    padding: 2rem;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    /* padding: 2rem; REMOVED: Layout handles spacing internally now */
 }
 
 .fixed-header {
-    position: fixed;
+    position: absolute;
+    /* Changed from fixed to absolute within fixed layout */
     top: 2rem;
     left: 2rem;
     right: 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    z-index: 50;
+    z-index: 1000;
     pointer-events: none;
-    /* Let clicks pass through */
+    height: 40px;
+    /* Define height for calc logic */
 }
 
 .fixed-header a {
@@ -54,18 +65,45 @@
     mix-blend-mode: exclusion;
 }
 
+/* Scrollable Container */
 .app-main {
+    position: absolute;
+    top: 6rem;
+    /* Header top (2rem) + Header height (~40px) + Gap (~2rem) */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+    /* Internal scroll */
+    padding: 2rem;
+    /* Content padding */
+    padding-top: 2rem;
+
+    /* Scrollbar styling for a premium feel */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+}
+
+.app-main::-webkit-scrollbar {
+    width: 6px;
+}
+
+.app-main::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.app-main::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 20px;
+}
+
+/* Ensure content is centered max-width */
+.app-main>div {
     max-width: 1600px;
-    margin: 8rem auto 0;
-    position: relative;
-    z-index: 10;
+    margin: 0 auto;
 }
 
 @media (max-width: 768px) {
-    .app-layout {
-        padding: 1rem;
-    }
-
     .fixed-header {
         top: 1rem;
         left: 1rem;
@@ -75,7 +113,6 @@
     .logo-text {
         font-size: 1.2rem;
         background: rgba(0, 0, 0, 0.5);
-        /* backdrop for readability */
         padding: 0.25rem 0.5rem;
         border-radius: 4px;
         backdrop-filter: blur(4px);
@@ -90,6 +127,10 @@
     }
 
     .app-main {
-        margin: 6rem auto 0;
+        top: 4.5rem;
+        /* Tighter gap on mobile: 1rem top + ~2rem header + 1.5rem gap */
+        padding: 1rem;
+        padding-bottom: 6rem;
+        /* Extra padding for bottom */
     }
 }
