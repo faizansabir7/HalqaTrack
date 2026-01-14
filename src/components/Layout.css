@@ -60,3 +60,36 @@
     position: relative;
     z-index: 10;
 }
+
+@media (max-width: 768px) {
+    .app-layout {
+        padding: 1rem;
+    }
+
+    .fixed-header {
+        top: 1rem;
+        left: 1rem;
+        right: 1rem;
+    }
+
+    .logo-text {
+        font-size: 1.2rem;
+        background: rgba(0, 0, 0, 0.5);
+        /* backdrop for readability */
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        backdrop-filter: blur(4px);
+    }
+
+    .date-display {
+        font-size: 0.75rem;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        backdrop-filter: blur(4px);
+    }
+
+    .app-main {
+        margin: 6rem auto 0;
+    }
+}

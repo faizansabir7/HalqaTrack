@@ -92,5 +92,40 @@
 
 .mobile-label {
     display: none;
-    /* Keep logic same, just visual polish above */
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+}
+
+@media (max-width: 768px) {
+    .table-header {
+        display: none;
+    }
+
+    .table-row {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.02);
+        margin-bottom: 1rem;
+        border-radius: 12px;
+        border: 1px solid var(--border-color);
+    }
+
+    .table-row>* {
+        width: 100%;
+    }
+
+    .btn-action {
+        width: 100%;
+    }
+
+    /* Since we can't easily add labels to existing HTML without changing JSX, 
+       we'll rely on the visual hierarchy or assume the user can infer context.
+       Ideally we add .mobile-label in JSX. 
+       For now, let's keep it clean. */
 }

@@ -120,24 +120,52 @@
 
 @media (max-width: 768px) {
     .area-list-item {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 2rem 1rem;
+        grid-template-columns: 1fr auto;
+        /* Name + Arrow */
+        gap: 0.5rem;
+        padding: 1.5rem 1rem;
+        align-items: center;
     }
 
-    .area-index,
-    .area-action {
+    .area-index {
         display: none;
-        /* Simplify for mobile */
+    }
+
+    .area-action {
+        display: block;
+        /* Show arrow */
+        transform: rotate(0);
+        /* Default state */
+        font-size: 0.8rem;
+    }
+
+    .area-list-item:hover .area-action {
+        transform: translate(5px, 0);
+        /* Point right instead of up-right rotate */
     }
 
     .area-name {
-        font-size: 2rem;
+        font-size: 1.75rem;
+        line-height: 1.1;
     }
 
     .area-stats {
-        flex-direction: column;
+        /* Move stats below name */
+        display: flex;
+        flex-direction: row;
         gap: 1rem;
-        align-items: flex-start;
+        margin-top: 0.5rem;
+        font-size: 0.8rem;
+        grid-column: 1 / -1;
+        /* Span full width */
+    }
+
+    .stat-group .value {
+        font-size: 1rem;
+    }
+
+    .hero-title {
+        font-size: 2.25rem;
+        line-height: 1.1;
     }
 }

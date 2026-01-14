@@ -231,30 +231,45 @@ export const DataProvider = ({ children }) => {
     };
 
     const seedDatabase = async () => {
-        // Simple seed function to populate Areas and Halqas from mockData if empty
-        // NOTE: This will create new UUIDs, so be careful.
-        console.log('Seeding Database...');
-
-        // 1. Insert Areas
-        for (const area of AREAS) {
-            const { data: areaData, error } = await supabase.from('areas').insert([{ name: area.name, color: area.color }]).select().single();
-            if (error) { console.error(error); continue; }
-
-            // 2. Insert Halqas for this area
-            // Find mock halqas for this area
-            const mockHalqasForArea = MOCK_HALQAS.filter(h => h.areaId === area.id);
-
-            for (const h of mockHalqasForArea) {
-                await supabase.from('halqas').insert([{
-                    area_id: areaData.id,
-                    name: h.name,
-                    meeting_day: h.meetingDay,
-                    members: h.members
-                }]);
-            }
+        // Check if data already exists to prevent duplicates
+        const { data: existingAreas } = await supabase.from('areas').select('id, name');
+        if (existingAreas && existingAreas.length > 0) {
+            alert("Database already contains data! Seeding aborted to prevent duplicates.");
+            return;
         }
-        console.log('Seeding Complete. Refreshing...');
-        window.location.reload();
+
+        if (!confirm("This will populate the database with initial data. Continue?")) return;
+
+        console.log('Seeding Database...');
+        setLoading(true);
+
+        try {
+            // 1. Insert Areas
+            for (const area of AREAS) {
+                const { data: areaData, error } = await supabase.from('areas').insert([{ name: area.name, color: area.color }]).select().single();
+                if (error) throw error;
+
+                // 2. Insert Halqas for this area
+                const mockHalqasForArea = MOCK_HALQAS.filter(h => h.areaId === area.id);
+
+                for (const h of mockHalqasForArea) {
+                    const { error: hError } = await supabase.from('halqas').insert([{
+                        area_id: areaData.id,
+                        name: h.name,
+                        meeting_day: h.meetingDay,
+                        members: h.members
+                    }]);
+                    if (hError) throw hError;
+                }
+            }
+            console.log('Seeding Complete. Refreshing...');
+            alert("Database seeded successfully! Reloading...");
+            window.location.reload();
+        } catch (error) {
+            console.error("Seeding Error:", error);
+            alert("Error seeding database: " + error.message + "\n\nCheck if tables exist and RLS policies are set.");
+            setLoading(false);
+        }
     };
 
     return (

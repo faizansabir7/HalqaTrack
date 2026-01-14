@@ -125,6 +125,23 @@
 @media (max-width: 768px) {
     .grid-2-col {
         grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .editor-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+
+    .btn-save {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .status-toggles {
+        flex-direction: column;
+        border-radius: 12px;
     }
 }
 
