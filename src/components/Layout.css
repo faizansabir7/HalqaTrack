@@ -1,0 +1,62 @@
+.custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: white;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+/* Cursor is already defined at top of file */
+
+.app-layout {
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.fixed-header {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 50;
+    pointer-events: none;
+    /* Let clicks pass through */
+}
+
+.fixed-header a {
+    pointer-events: auto;
+}
+
+.logo-text {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    text-decoration: none;
+    mix-blend-mode: exclusion;
+}
+
+.date-display {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    mix-blend-mode: exclusion;
+}
+
+.app-main {
+    max-width: 1600px;
+    margin: 8rem auto 0;
+    position: relative;
+    z-index: 10;
+}

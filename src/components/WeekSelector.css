@@ -1,0 +1,74 @@
+.week-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    background: rgba(17, 17, 17, 0.6);
+    /* Transparent dark */
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    /* Pill shape */
+    border: 1px solid var(--border-color);
+    margin-bottom: 3rem;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    max-width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.week-nav-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.week-nav-btn:hover {
+    background: var(--background);
+    border-color: var(--text-secondary);
+}
+
+.week-display {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    min-width: 160px;
+    justify-content: center;
+}
+
+.btn-today {
+    margin-left: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--color-primary);
+    font-weight: 500;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn-today:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .week-selector {
+        padding: 0.5rem;
+        gap: 0.5rem;
+    }
+
+    .week-display {
+        font-size: 1rem;
+        min-width: 130px;
+    }
+}
