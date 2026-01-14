@@ -151,9 +151,9 @@ const ManageButtonInner = ({ halqaId, existingMeetingId }) => {
             onClick={handleClick}
             disabled={isCreating}
             className="btn-action"
-            style={{ 
-                border: 'none', 
-                cursor: isCreating ? 'wait' : 'pointer', 
+            style={{
+                border: 'none',
+                cursor: isCreating ? 'wait' : 'pointer',
                 opacity: isCreating ? 0.7 : 1,
                 color: error ? 'var(--color-danger)' : 'inherit'
             }}
@@ -166,15 +166,15 @@ const ManageButtonInner = ({ halqaId, existingMeetingId }) => {
 
 const StatusBadge = ({ status }) => {
     const config = {
-        completed: { color: 'var(--color-success)', icon: CheckCircle, label: 'Completed' },
-        missed: { color: 'var(--color-danger)', icon: XCircle, label: 'Missed' },
-        pending: { color: 'var(--color-warning)', icon: Clock, label: 'Pending' }
+        completed: { icon: CheckCircle, label: 'Completed' },
+        missed: { icon: XCircle, label: 'Missed' },
+        pending: { icon: Clock, label: 'Pending' }
     };
 
-    const { color, icon: Icon, label } = config[status] || config.pending;
+    const { icon: Icon, label } = config[status] || config.pending;
 
     return (
-        <span className="status-badge" style={{ borderColor: color, color: color }}>
+        <span className={`status-badge ${status || 'pending'}`}>
             <Icon size={14} />
             {label}
         </span>

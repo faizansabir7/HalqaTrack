@@ -32,6 +32,11 @@
   --area-south: #f472b6;
   --area-east: #a78bfa;
   --area-west: #34d399;
+
+  /* Semantic Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-danger: #ef4444;
 }
 
 * {
