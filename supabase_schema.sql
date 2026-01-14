@@ -35,7 +35,11 @@ ALTER TABLE meetings ENABLE ROW LEVEL SECURITY;
 
 -- Create policies (modify as needed for production, currently open for anon)
 CREATE POLICY "Allow public read access on areas" ON areas FOR SELECT USING (true);
+CREATE POLICY "Allow public insert/update on areas" ON areas FOR ALL USING (true);
+
 CREATE POLICY "Allow public read access on halqas" ON halqas FOR SELECT USING (true);
+CREATE POLICY "Allow public insert/update on halqas" ON halqas FOR ALL USING (true);
+
 CREATE POLICY "Allow public read access on meetings" ON meetings FOR SELECT USING (true);
 CREATE POLICY "Allow public insert/update on meetings" ON meetings FOR ALL USING (true);
 

@@ -1,0 +1,25 @@
+Uncommitted Files Analysis:
+============================
+
+1. NETLIFY_DEPLOYMENT_GUIDE.md
+   - Type: Documentation
+   - Needed for DB?: NO
+   - Purpose: Instructions for YOU on how to add env variables
+   - Can discard?: YES (it's just a guide for you)
+
+2. SUPABASE_SETUP.md
+   - Type: Documentation  
+   - Needed for DB?: NO
+   - Purpose: Instructions for YOU on how to setup Supabase
+   - Can discard?: YES (it's just a guide for you)
+
+3. supabase_schema.sql
+   - Type: Database schema
+   - Needed for DB?: YES, but ONLY to run in Supabase dashboard
+   - Already in your repo?: Let me check...
+   
+4. supabase_seed_data.sql
+   - Type: Sample data
+   - Needed for DB?: YES, but ONLY to run in Supabase dashboard
+   - Already in your repo?: NO (newly created)
+
