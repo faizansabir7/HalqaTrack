@@ -47,6 +47,9 @@ const AreaDetails = () => {
                     const meeting = meetings.find(m => m.halqa_id === halqa.id);
                     const status = meeting ? meeting.status : 'pending';
 
+                    const attendanceCount = meeting?.attendance ? Object.values(meeting.attendance).filter(Boolean).length : 0;
+                    const totalMembers = halqa.members?.length || 0;
+
                     return (
                         <Link
                             to={`/meeting/${halqa.id}`}
@@ -58,7 +61,12 @@ const AreaDetails = () => {
                             <div className="col-status">
                                 <span className={`status-badge ${status}`}>{status}</span>
                             </div>
-                            <div className="col-members">{halqa.members?.length || 0}</div>
+                            <div className="col-members">
+                                <span style={{ opacity: 0.5, fontSize: '0.8em', marginRight: '4px' }}>ATTENDANCE:</span>
+                                <strong>{attendanceCount}</strong>
+                                <span style={{ margin: '0 2px', opacity: 0.5 }}>/</span>
+                                <span style={{ opacity: 0.7 }}>{totalMembers}</span>
+                            </div>
                             <div className="col-action">
                                 <span className="btn-manage">MANAGE</span>
                             </div>
