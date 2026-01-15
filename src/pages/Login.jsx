@@ -8,8 +8,8 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Default system password - in real app use env variable
-    const SYSTEM_PASSWORD = "admin";
+    // Default system password - uses Env variable or fallback
+    const SYSTEM_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD || "admin";
 
     const from = location.state?.from?.pathname || "/admin";
 
