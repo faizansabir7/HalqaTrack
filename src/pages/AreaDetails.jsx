@@ -31,29 +31,36 @@ const AreaDetails = () => {
                 </h1>
             </motion.div>
 
-            <div className="halqas-list-section">
+            {/* Swiss Grid Table Layout */}
+            <div className="halqa-grid-table">
+                {/* Table Header */}
+                <div className="grid-header-row">
+                    <div className="col-index">#</div>
+                    <div className="col-name">HALQA NAME</div>
+                    <div className="col-status">STATUS</div>
+                    <div className="col-members">MEMBERS</div>
+                    <div className="col-action">ACTION</div>
+                </div>
+
+                {/* Table Rows */}
                 {areaHalqas.map((halqa, index) => {
                     const meeting = meetings.find(m => m.halqa_id === halqa.id);
                     const status = meeting ? meeting.status : 'pending';
 
                     return (
-                        <Link to={`/meeting/${halqa.id}`} key={halqa.id} className="halqa-row-item">
-                            <div className="row-index">0{index + 1}</div>
-                            <div className="row-content">
-                                <h3 className="halqa-name">{halqa.name}</h3>
-
-                                {/* Status Indicator - Using "Flag" concept */}
-                                <div className={`status-flag ${status}`}>
-                                    {status}
-                                </div>
-
-                                <div className="halqa-meta">
-                                    <span className="meta-label">MEMBERS</span>
-                                    <span className="meta-value">{halqa.members?.length || 0}</span>
-                                </div>
+                        <Link
+                            to={`/meeting/${halqa.id}`}
+                            key={halqa.id}
+                            className="grid-row"
+                        >
+                            <div className="col-index">{String(index + 1).padStart(2, '0')}</div>
+                            <div className="col-name">{halqa.name}</div>
+                            <div className="col-status">
+                                <span className={`status-badge ${status}`}>{status}</span>
                             </div>
-                            <div className="row-action">
-                                <span>VIEW DETAILS</span>
+                            <div className="col-members">{halqa.members?.length || 0}</div>
+                            <div className="col-action">
+                                <span className="btn-manage">MANAGE</span>
                             </div>
                         </Link>
                     );

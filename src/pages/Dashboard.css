@@ -10,16 +10,17 @@
 
 .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(3rem, 10vw, 8rem);
-    /* Reduced from 4-12-10 */
+    /* Reduced size to ensure single line on mobile and cleaner look */
+    font-size: clamp(2rem, 9vw, 6rem);
     line-height: 1.1;
-    /* increased from 0.85 to prevent overlap if it wraps */
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: -0.02em;
     color: var(--text-primary);
-    word-break: break-word;
-    /* Ensure it doesn't overflow horizontally */
+    white-space: nowrap;
+    /* Force single line as requested */
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .controls-bar {
@@ -161,7 +162,6 @@
     }
 
     .hero-title {
-        font-size: 3rem;
-        line-height: 1;
+        font-size: clamp(1.8rem, 11vw, 3rem);
     }
 }

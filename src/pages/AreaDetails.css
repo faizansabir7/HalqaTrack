@@ -5,7 +5,7 @@
 }
 
 .area-header {
-    margin-bottom: 6rem;
+    margin-bottom: 5rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -30,220 +30,179 @@
     opacity: 1;
 }
 
-/* Halqa List - Professional Apple Style */
-.halqas-list-section {
+/* Minimalist Clean Table Design */
+.halqa-grid-table {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    /* No outer border */
 }
 
-.halqa-row-item {
-    position: relative;
+/* HeaderRow - Clean, text-only headers */
+.grid-header-row {
     display: grid;
-    grid-template-columns: 60px 1fr auto;
-    align-items: center;
-    padding: 2.5rem 0;
+    /* Grid Columns: Index | Name (flex) | Status | Members | Action */
+    grid-template-columns: 60px 2fr 120px 100px 140px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.grid-header-row>div {
+    padding: 0 1rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    /* No vertical borders */
+}
+
+.grid-header-row>div:last-child {
+    justify-content: flex-end;
+    /* Align header to match button */
+}
+
+/* Data Rows - Floating clean rows */
+.grid-row {
+    display: grid;
+    grid-template-columns: 60px 2fr 120px 100px 140px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Very subtle divider */
     text-decoration: none;
-    color: var(--text-primary);
-    transition: all 0.4s ease;
-    overflow: hidden;
+    color: white;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    /* Slight radius for hover state */
+    margin-bottom: 4px;
+    /* Tiny gap between rows */
 }
 
-.halqa-row-item:hover {
-    padding-left: 1.5rem;
-    border-bottom-color: var(--accent-color, white);
-    /* Vibrant border */
-    background: linear-gradient(90deg,
-            rgba(255, 255, 255, 0.03) 0%,
-            transparent 100%);
+.grid-row:last-child {
+    border-bottom: none;
 }
 
-.halqa-row-item::before {
-    /* Glow effect on hover */
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 4px;
-    height: 0%;
-    background: var(--accent-color, white);
-    transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+.grid-row>div {
+    padding: 1.5rem 1rem;
+    display: flex;
+    align-items: center;
+    font-family: var(--font-display);
+    /* No vertical borders */
+}
+
+.grid-row>div:last-child {
+    justify-content: flex-end;
+}
+
+/* Typography & Content */
+.col-index {
+    color: var(--text-secondary);
+    justify-content: center;
+    font-size: 0.9rem;
+    font-weight: 400;
+    opacity: 0.5;
+}
+
+.col-name {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 1.15rem;
+    letter-spacing: -0.01em;
+}
+
+.col-members {
+    font-size: 1.1rem;
+    justify-content: center;
     opacity: 0.8;
 }
 
-.halqa-row-item:hover::before {
-    height: 100%;
-}
-
-.row-index {
-    font-family: var(--font-display);
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    opacity: 0.4;
-    transition: color 0.3s;
-}
-
-.halqa-row-item:hover .row-index {
-    color: var(--accent-color, white);
-    opacity: 1;
-}
-
-.row-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding-right: 2rem;
-}
-
-.halqa-name {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-    font-weight: 600;
-    text-transform: uppercase;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
-    color: var(--text-primary);
-    transition: opacity 0.3s;
-}
-
-.halqa-row-item:hover .halqa-name {
-    opacity: 0.9;
-}
-
-/* Status Flags - Keep consistent but ensure they sit nicely */
-.status-flag {
-    display: inline-flex;
-    align-items: center;
+.col-status {
     justify-content: center;
-    padding: 0.2rem 0.6rem;
+}
+
+/* Status Badges - Colored pills */
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border: 1px solid currentColor;
     border-radius: 99px;
-    font-size: 0.65rem;
-    font-weight: 600;
+    font-size: 0.6rem;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-left: 1.5rem;
-    border: 1px solid transparent;
-    vertical-align: middle;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    white-space: nowrap;
+    background: transparent;
 }
 
-.status-flag.completed {
-    color: #34d399;
-    background: rgba(16, 185, 129, 0.08);
-    /* More subtle */
-    border-color: rgba(16, 185, 129, 0.15);
+.status-badge.completed {
+    color: #4ade80;
+    /* Neon Green */
+    border-color: #4ade80;
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.15);
+    background: rgba(74, 222, 128, 0.05);
 }
 
-.status-flag.pending {
+.status-badge.pending {
     color: #fbbf24;
-    background: rgba(245, 158, 11, 0.08);
-    border-color: rgba(245, 158, 11, 0.15);
+    /* Amber */
+    border-color: #fbbf24;
+    border-style: solid;
 }
 
-.status-flag.missed {
+.status-badge.missed {
     color: #f87171;
-    background: rgba(239, 68, 68, 0.08);
-    border-color: rgba(239, 68, 68, 0.15);
+    /* Red */
+    border-color: #f87171;
+    text-decoration: none;
 }
 
-.halqa-meta {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    opacity: 0.5;
-    transition: opacity 0.3s;
-    min-width: 100px;
-}
-
-.halqa-row-item:hover .halqa-meta {
-    opacity: 1;
-}
-
-.meta-label {
-    font-size: 0.65rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    margin-bottom: 0.2rem;
-}
-
-.meta-value {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 500;
-}
-
-/* MANAGE Action Button */
-.row-action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5rem 1.25rem;
-    font-size: 0.75rem;
-    font-weight: 600;
+/* Action Button - Subtle text */
+.btn-manage {
+    font-size: 0.7rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-
-    color: var(--accent-color, white);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.4rem 1rem;
     border-radius: 99px;
-    background: transparent;
-
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    white-space: nowrap;
 }
 
-.halqa-row-item:hover .row-action {
-    opacity: 1;
-    transform: translateX(0);
-    border-color: var(--accent-color, white);
-    background: rgba(255, 255, 255, 0.05);
+.grid-row:hover .btn-manage {
+    color: white;
+    border-color: white;
+    background: rgba(255, 255, 255, 0.1);
 }
 
-/* Mobile Adjustments */
+/* HOVER EFFECT: Soft Background */
+.grid-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+    transform: translateX(5px);
+    /* Tiny shift for interaction feel */
+}
+
+/* Mobile Response: Horizontal Scroll (Preserve table structure) */
 @media (max-width: 768px) {
-    .area-header {
-        margin-bottom: 3rem;
+    .halqa-grid-table {
+        overflow-x: auto;
+        display: block;
+        /* Allow block scrolling */
     }
 
-    .halqa-row-item {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 2rem 0;
+    .grid-header-row,
+    .grid-row {
+        min-width: 800px;
+        /* Force minimum width to keep table intact */
+        grid-template-columns: 50px 2fr 100px 80px 100px;
     }
 
-    .row-index {
-        display: none;
+    .grid-row>div {
+        padding: 1.25rem 0.5rem;
     }
 
-    .row-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-
-    .halqa-name {
-        font-size: 2.5rem;
-    }
-
-    .halqa-meta {
-        align-items: flex-start;
-        flex-direction: row;
-        gap: 1rem;
-        align-items: baseline;
-    }
-
-    .row-action {
-        display: none;
-        /* Hide explicit action text on mobile, card is clickable */
-    }
-
-    .halqa-row-item:hover {
-        padding-left: 0;
-        /* excessive movement on touch */
+    /* Remove hover checks on mobile */
+    .grid-row:hover {
+        transform: none;
     }
 }

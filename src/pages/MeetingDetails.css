@@ -132,6 +132,13 @@
 }
 
 @media (max-width: 768px) {
+
+    /* Safe Mobile Padding */
+    .meeting-editor {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
     .grid-2-col {
         grid-template-columns: 1fr;
         gap: 3rem;
