@@ -3,19 +3,23 @@
 }
 
 .hero-section {
-    margin-bottom: 4rem;
+    margin-bottom: 5rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hero-title {
     font-family: var(--font-display);
-    font-size: clamp(4rem, 10vw, 8rem);
-    line-height: 0.9;
+    font-size: clamp(3rem, 10vw, 8rem);
+    /* Reduced from 4-12-10 */
+    line-height: 1.1;
+    /* increased from 0.85 to prevent overlap if it wraps */
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.02em;
     color: var(--text-primary);
+    word-break: break-word;
+    /* Ensure it doesn't overflow horizontally */
 }
 
 .controls-bar {
@@ -31,7 +35,7 @@
 
 .area-list-item-wrapper {
     position: relative;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     overflow: hidden;
 }
 
@@ -39,30 +43,34 @@
     display: grid;
     grid-template-columns: 80px 2fr 2fr 80px;
     align-items: center;
-    padding: 3rem 1rem;
+    padding: 3.5rem 0;
     text-decoration: none;
     color: var(--text-primary);
     position: relative;
     z-index: 2;
-    transition: padding 0.3s ease;
+    transition: all 0.3s ease;
 }
 
+/* Minimalist Hover: No Background, just padding shift & opacity */
 .area-list-item:hover {
     padding-left: 2rem;
+    opacity: 0.8;
 }
 
 .area-index {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1rem;
     color: var(--text-secondary);
+    opacity: 0.5;
 }
 
 .area-name {
     font-family: var(--font-display);
-    font-size: 3rem;
+    font-size: 3.5rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: -0.02em;
+    line-height: 1;
 }
 
 .area-stats {
@@ -78,16 +86,16 @@
 }
 
 .stat-group .label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.1em;
 }
 
 .stat-group .value {
     font-family: var(--font-display);
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 .area-action {
@@ -99,23 +107,14 @@
 
 .area-list-item:hover .area-action {
     color: var(--text-primary);
-    transform: rotate(45deg);
+    transform: rotate(0);
+    /* Minimalist arrow doesn't need eager rotation */
+    transform: translateX(10px);
 }
 
+/* Remove the gradient hover bg */
 .hover-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-}
-
-.area-list-item:hover .hover-bg {
-    opacity: 1;
+    display: none;
 }
 
 @media (max-width: 768px) {
@@ -123,7 +122,7 @@
         grid-template-columns: 1fr auto;
         /* Name + Arrow */
         gap: 0.5rem;
-        padding: 1.5rem 1rem;
+        padding: 2rem 0;
         align-items: center;
     }
 
@@ -133,19 +132,16 @@
 
     .area-action {
         display: block;
-        /* Show arrow */
         transform: rotate(0);
-        /* Default state */
         font-size: 0.8rem;
     }
 
     .area-list-item:hover .area-action {
         transform: translate(5px, 0);
-        /* Point right instead of up-right rotate */
     }
 
     .area-name {
-        font-size: 1.75rem;
+        font-size: 2rem;
         line-height: 1.1;
     }
 
@@ -153,8 +149,8 @@
         /* Move stats below name */
         display: flex;
         flex-direction: row;
-        gap: 1rem;
-        margin-top: 0.5rem;
+        gap: 1.5rem;
+        margin-top: 0.75rem;
         font-size: 0.8rem;
         grid-column: 1 / -1;
         /* Span full width */
@@ -165,7 +161,7 @@
     }
 
     .hero-title {
-        font-size: 2.25rem;
-        line-height: 1.1;
+        font-size: 3rem;
+        line-height: 1;
     }
 }

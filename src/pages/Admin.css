@@ -1,224 +1,379 @@
 .admin-container {
-    padding-top: 6rem;
-    padding-bottom: 4rem;
+    padding-bottom: 8rem;
 }
 
-.simple-input {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    font-size: 0.9rem;
+.admin-header {
+    margin-bottom: 4rem;
 }
 
-.simple-input:focus {
-    outline: none;
-    border-color: var(--color-primary);
+/* Stats Grid */
+/* Stats Grid - Minimalist */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 5rem;
 }
 
-.btn-primary-sm {
-    background-color: var(--color-primary);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: var(--radius-sm);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
+@media (max-width: 768px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
-.btn-icon {
-    padding: 0.5rem;
-    color: var(--text-secondary);
-    border-radius: var(--radius-sm);
-    transition: all 0.2s;
-}
-
-.btn-icon:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-}
-
-.btn-add-halqa {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem;
-    width: 100%;
-    justify-content: center;
-    border: 1px dashed var(--border-color);
+.stat-card {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem;
     border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.01);
+}
+
+.stat-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     color: var(--text-secondary);
-    transition: all 0.2s;
-}
-
-.btn-add-halqa:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-    border-color: var(--text-secondary);
-}
-
-/* Modal */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    width: 90%;
-    max-width: 500px;
-    background: var(--bg-card);
-    border: 1px solid var(--border-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--border-color);
-}
-
-.member-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
     margin-bottom: 0.5rem;
 }
 
-.member-row input {
-    flex: 1;
+.stat-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
 }
 
-.add-member-row {
+.stat-value {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 500;
+    line-height: 1;
+    color: white;
+}
+
+/* Areas List */
+.areas-list {
     display: flex;
-    gap: 0.5rem;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-/* Utility Classes */
-.flex {
+.area-group-container {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.area-accordion-header {
+    background: transparent;
+    padding: 2rem 0;
+    cursor: pointer;
     display: flex;
-}
-
-.justify-between {
     justify-content: space-between;
-}
-
-.items-center {
     align-items: center;
+    transition: all 0.3s;
 }
 
-.gap-2 {
-    gap: 0.5rem;
+.area-accordion-header:hover {
+    opacity: 0.8;
 }
 
-.flex-1 {
+/* .area-count-badge handled via inline styles / specific overrides */
+
+.accordion-content {
+    overflow: hidden;
+}
+
+/* Halqas List - Editorial Row Style */
+.halqas-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* No gap, borders separate them */
+    padding: 0 0 2rem 0;
+}
+
+.halqa-card {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0;
+    padding: 1.5rem 0;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.halqa-card:hover {
+    background: transparent;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+    /* No scale effect, just border highlight */
+    transform: none;
+    box-shadow: none;
+    padding-left: 1rem;
+    /* Subtle shift */
+}
+
+.halqa-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
     flex: 1;
 }
 
-.cursor-pointer {
+.halqa-card-header h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+}
+
+.halqa-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 99px;
+}
+
+.halqa-actions {
+    display: flex;
+    gap: 0.75rem;
+    opacity: 0.4;
+    transition: opacity 0.2s;
+}
+
+.halqa-card:hover .halqa-actions {
+    opacity: 1;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    border-radius: 99px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    transition: all 0.2s;
     cursor: pointer;
 }
 
-.mb-4 {
-    margin-bottom: 1rem;
+.action-btn:hover {
+    background: white;
+    color: black;
+    border-color: white;
 }
 
-.mt-2 {
-    margin-top: 0.5rem;
+.action-btn.danger:hover {
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
 }
 
-.mt-4 {
+.add-halqa-btn {
+    width: 100%;
     margin-top: 1rem;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+    background: transparent;
+    border-radius: var(--radius-sm);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    cursor: pointer;
+    padding: 1.25rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-.mt-6 {
-    margin-top: 1.5rem;
+.add-halqa-btn:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: white;
 }
 
-.mb-8 {
+/* Modal - Glassmorphism */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5000;
+}
+
+.modal-glass {
+    width: 90%;
+    max-width: 500px;
+    background: rgba(10, 10, 10, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.modal-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     margin-bottom: 2rem;
 }
 
-.mb-2 {
-    margin-bottom: 0.5rem;
+.close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
 }
 
-.mr-4 {
-    margin-right: 1rem;
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
 }
 
-.p-3 {
+.member-list-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.member-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
     padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    transition: all 0.2s;
 }
 
-.p-4 {
-    padding: 1rem;
+.member-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
-.pl-4 {
-    padding-left: 1rem;
-}
-
-.w-full {
-    width: 100%;
-}
-
-.justify-center {
+.member-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    display: flex;
+    align-items: center;
     justify-content: center;
-}
-
-.text-lg {
-    font-size: 1.125rem;
-}
-
-.text-xl {
-    font-size: 1.25rem;
-}
-
-.text-2xl {
-    font-size: 1.5rem;
-}
-
-.font-bold {
     font-weight: 700;
+    font-size: 0.8rem;
+    color: white;
 }
 
-.font-medium {
-    font-weight: 500;
+.member-name-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    outline: none;
 }
 
-.font-display {
-    font-family: var(--font-display);
-}
-
-.text-red-500 {
+.delete-icon {
+    opacity: 0;
     color: #ef4444;
+    transition: opacity 0.2s;
+    background: transparent;
+    border: none;
+    cursor: pointer;
 }
 
-.hover\:text-red-400:hover {
-    color: #f87171;
+.member-item:hover .delete-icon {
+    opacity: 1;
 }
 
-.text-green-500 {
-    color: #10b981;
+.add-member-section {
+    display: flex;
+    gap: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.5rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.text-gray-500 {
-    color: #6b7280;
+.new-member-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 0.5rem 1rem;
+    color: white;
+    outline: none;
 }
 
-.modal-content {
-    padding: 1.5rem;
+.add-btn-primary {
+    background: var(--color-primary);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.add-btn-primary:hover {
+    transform: scale(1.05);
+}
+
+.edit-input {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--color-primary);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    outline: none;
 }

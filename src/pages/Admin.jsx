@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useData } from '../context/DataContext';
-import { ChevronDown, ChevronRight, Plus, Trash2, Edit2, Users, Save, X } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus, Trash2, Edit2, Users, Save, X, Activity, Layers, UserCheck } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './Admin.css';
 
 const Admin = () => {
@@ -12,16 +13,19 @@ const Admin = () => {
     const [editedMembers, setEditedMembers] = useState([]);
     const [newMemberName, setNewMemberName] = useState('');
 
+    // Stats Calculation
+    const totalAreas = areas.length;
+    const totalHalqas = halqas.length;
+    const totalMembers = halqas.reduce((acc, h) => acc + (h.members ? h.members.length : 0), 0);
+
     const toggleArea = (areaId) => {
         setExpandedAreas(prev => ({ ...prev, [areaId]: !prev[areaId] }));
     };
 
-    // Halqa Management
+    // Halqa Handling
     const handleAddHalqa = (areaId) => {
         const name = prompt("Enter Halqa Name:");
-        if (name) {
-            addHalqa(areaId, name);
-        }
+        if (name) addHalqa(areaId, name);
     };
 
     const startEditingHalqa = (halqa) => {
@@ -30,19 +34,15 @@ const Admin = () => {
     };
 
     const saveHalqaName = () => {
-        if (tempHalqaName.trim()) {
-            updateHalqaName(editingHalqaId, tempHalqaName);
-        }
+        if (tempHalqaName.trim()) updateHalqaName(editingHalqaId, tempHalqaName);
         setEditingHalqaId(null);
     };
 
     const handleDeleteHalqa = (id) => {
-        if (window.confirm("Are you sure you want to delete this Halqa? include all meetings?")) {
-            deleteHalqa(id);
-        }
+        if (window.confirm("Delete this Halqa and all its data?")) deleteHalqa(id);
     };
 
-    // Member Management
+    // Member Handling
     const openMemberManager = (halqa) => {
         setManagingMembersHalqaId(halqa.id);
         setEditedMembers(halqa.members || []);
@@ -51,15 +51,16 @@ const Admin = () => {
     const closeMemberManager = () => {
         setManagingMembersHalqaId(null);
         setEditedMembers([]);
+        setNewMemberName('');
     };
 
     const handleCreateMember = () => {
         if (!newMemberName.trim()) return;
         const newId = `m-${managingMembersHalqaId}-${Date.now()}`;
         const newMember = { id: newId, name: newMemberName, halqaId: managingMembersHalqaId };
-
         const updatedList = [...editedMembers, newMember];
         setEditedMembers(updatedList);
+        // Auto-save
         updateHalqaMembers(managingMembersHalqaId, updatedList);
         setNewMemberName('');
     };
@@ -75,116 +76,218 @@ const Admin = () => {
         setEditedMembers(updatedList);
     };
 
-    // Save members entirely? Logic above saves per action for simplicity or we can save on close.
-    // The previous implementation used optimistic context updates.
-    // We can just keep syncing state with context on every change for "instant" feel
-    // or add a Save button. Let's sync on change for now as in handleCreate/Delete.
-
     const saveMemberChanges = () => {
         updateHalqaMembers(managingMembersHalqaId, editedMembers);
         closeMemberManager();
     };
 
+
     return (
         <div className="container admin-container">
-            <h1 className="text-2xl mb-8 font-display">System Administration</h1>
+            {/* Header Section */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="admin-header"
+            >
+                <h1 className="text-display text-4xl mb-2">SYSTEM<br /><span className="text-secondary">ADMINISTRATION</span></h1>
+            </motion.div>
 
-            {managingMembersHalqaId && (
-                <div className="modal-overlay">
-                    <div className="modal-content card">
-                        <div className="modal-header">
-                            <h2 className="text-xl">Manage Members</h2>
-                            <button onClick={closeMemberManager}><X size={20} /></button>
-                        </div>
+            {/* Stats Overview */}
+            <div className="stats-grid">
+                <StatCard icon={Layers} label="TOTAL AREAS" value={totalAreas} delay={0.1} />
+                <StatCard icon={Activity} label="ACTIVE HALQAS" value={totalHalqas} delay={0.2} />
+                <StatCard icon={Users} label="TOTAL MEMBERS" value={totalMembers} delay={0.3} />
+            </div>
 
-                        <div className="member-list-editor">
-                            {editedMembers.map(member => (
-                                <div key={member.id} className="member-row">
-                                    <input
-                                        value={member.name}
-                                        onChange={(e) => handleUpdateMemberName(member.id, e.target.value)}
-                                        className="simple-input"
-                                    />
-                                    <button onClick={() => handleDeleteMember(member.id)} className="text-red-500 hover:text-red-400">
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="add-member-row mt-4">
-                            <input
-                                value={newMemberName}
-                                onChange={(e) => setNewMemberName(e.target.value)}
-                                placeholder="New Member Name"
-                                className="simple-input flex-1"
-                                onKeyDown={(e) => e.key === 'Enter' && handleCreateMember()}
-                            />
-                            <button onClick={handleCreateMember} className="btn-primary-sm">
-                                <Plus size={16} /> Add
-                            </button>
-                        </div>
-
-                        <div className="modal-footer mt-6">
-                            <button onClick={saveMemberChanges} className="btn-save w-full justify-center">Done</button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
+            {/* Areas List */}
             <div className="areas-list">
-                {areas.map(area => (
-                    <div key={area.id} className="area-group mb-4">
+                {areas.map((area, i) => (
+                    <motion.div
+                        key={area.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 + (i * 0.1) }}
+                        className="area-group-container"
+                    >
                         <div
-                            className="area-header card p-4 flex justify-between items-center cursor-pointer"
+                            className="area-accordion-header"
                             onClick={() => toggleArea(area.id)}
-                            style={{ borderColor: area.color }}
+                            style={{
+                                borderLeftColor: area.color,
+                                background: `linear-gradient(90deg, ${area.color}15, rgba(10,10,10,0.6))`
+                            }}
                         >
-                            <h2 className="text-lg font-bold" style={{ color: area.color }}>{area.name}</h2>
-                            {expandedAreas[area.id] ? <ChevronDown /> : <ChevronRight />}
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                <h2 className="text-xl font-display" style={{ margin: 0, color: 'white' }}>{area.name}</h2>
+                                <div style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.25rem 0.75rem',
+                                    borderRadius: '9999px',
+                                    background: `${area.color}20`,
+                                    border: `1px solid ${area.color}40`,
+                                    color: area.color,
+                                    fontSize: '0.75rem',
+                                    fontWeight: 600,
+                                    letterSpacing: '0.05em'
+                                }}>
+                                    <Layers size={14} />
+                                    <span>{halqas.filter(h => h.area_id === area.id).length} HALQAS</span>
+                                </div>
+                            </div>
+                            <motion.div
+                                animate={{ rotate: expandedAreas[area.id] ? 180 : 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <ChevronDown style={{ color: area.color }} />
+                            </motion.div>
                         </div>
 
-                        {expandedAreas[area.id] && (
-                            <div className="halqas-list pl-4 mt-2">
-                                {halqas.filter(h => h.area_id === area.id).map(halqa => (
-                                    <div key={halqa.id} className="halqa-item card p-3 mb-2 flex justify-between items-center">
-                                        {editingHalqaId === halqa.id ? (
-                                            <div className="flex gap-2 flex-1 mr-4">
-                                                <input
-                                                    value={tempHalqaName}
-                                                    onChange={(e) => setTempHalqaName(e.target.value)}
-                                                    className="simple-input flex-1"
-                                                />
-                                                <button onClick={saveHalqaName} className="text-green-500"><Save size={16} /></button>
-                                                <button onClick={() => setEditingHalqaId(null)} className="text-gray-500"><X size={16} /></button>
-                                            </div>
-                                        ) : (
-                                            <span className="font-medium">{halqa.name}</span>
-                                        )}
+                        <AnimatePresence>
+                            {expandedAreas[area.id] && (
+                                <motion.div
+                                    initial={{ height: 0, opacity: 0 }}
+                                    animate={{ height: 'auto', opacity: 1 }}
+                                    exit={{ height: 0, opacity: 0 }}
+                                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                                    className="accordion-content"
+                                >
+                                    <div className="halqas-grid">
+                                        {halqas.filter(h => h.area_id === area.id).map(halqa => (
+                                            <div key={halqa.id} className="halqa-card">
+                                                <div className="halqa-card-header">
+                                                    {editingHalqaId === halqa.id ? (
+                                                        <input
+                                                            autoFocus
+                                                            className="edit-input"
+                                                            value={tempHalqaName}
+                                                            onChange={(e) => setTempHalqaName(e.target.value)}
+                                                            onBlur={saveHalqaName}
+                                                            onKeyDown={(e) => e.key === 'Enter' && saveHalqaName()}
+                                                        />
+                                                    ) : (
+                                                        <h3 className="font-bold">{halqa.name}</h3>
+                                                    )}
+                                                    <div className="halqa-badge">
+                                                        <Users size={12} />
+                                                        {halqa.members?.length || 0}
+                                                    </div>
+                                                </div>
 
-                                        <div className="actions flex gap-2">
-                                            <button onClick={() => openMemberManager(halqa)} className="btn-icon" title="Manage Members">
-                                                <Users size={16} />
-                                            </button>
-                                            <button onClick={() => startEditingHalqa(halqa)} className="btn-icon" title="Edit Name">
-                                                <Edit2 size={16} />
-                                            </button>
-                                            <button onClick={() => handleDeleteHalqa(halqa.id)} className="btn-icon text-red-500" title="Delete Halqa">
-                                                <Trash2 size={16} />
-                                            </button>
-                                        </div>
+                                                <div className="halqa-actions">
+                                                    <button onClick={() => openMemberManager(halqa)} className="action-btn">
+                                                        <UserCheck size={14} /> Members
+                                                    </button>
+                                                    <button onClick={() => startEditingHalqa(halqa)} className="action-btn">
+                                                        <Edit2 size={14} /> Rename
+                                                    </button>
+                                                    <button onClick={() => handleDeleteHalqa(halqa.id)} className="action-btn danger">
+                                                        <Trash2 size={14} /> Delete
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <button onClick={() => handleAddHalqa(area.id)} className="add-halqa-btn">
+                                            <Plus size={20} />
+                                            <span>Add New Halqa</span>
+                                        </button>
                                     </div>
-                                ))}
-                                <button onClick={() => handleAddHalqa(area.id)} className="btn-add-halqa mt-2">
-                                    <Plus size={16} /> Add Halqa
-                                </button>
-                            </div>
-                        )}
-                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </motion.div>
                 ))}
             </div>
+
+            {/* Member Manager Modal */}
+            <AnimatePresence>
+                {managingMembersHalqaId && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="modal-backdrop"
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            className="modal-glass"
+                        >
+                            <div className="modal-top">
+                                <div>
+                                    <h2 className="text-xl font-display">Manage Members</h2>
+                                    <p className="text-secondary text-sm">Add or remove members for this Halqa</p>
+                                </div>
+                                <button onClick={saveMemberChanges} className="close-btn">
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <div className="member-list-scroll">
+                                <AnimatePresence>
+                                    {editedMembers.map(member => (
+                                        <motion.div
+                                            key={member.id}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            exit={{ opacity: 0, x: 10, height: 0 }}
+                                            className="member-item"
+                                        >
+                                            <div className="member-avatar">
+                                                {member.name.charAt(0).toUpperCase()}
+                                            </div>
+                                            <input
+                                                value={member.name}
+                                                onChange={(e) => handleUpdateMemberName(member.id, e.target.value)}
+                                                className="member-name-input"
+                                            />
+                                            <button onClick={() => handleDeleteMember(member.id)} className="delete-icon">
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </motion.div>
+                                    ))}
+                                </AnimatePresence>
+                            </div>
+
+                            <div className="add-member-section">
+                                <input
+                                    value={newMemberName}
+                                    onChange={(e) => setNewMemberName(e.target.value)}
+                                    placeholder="Enter new member name..."
+                                    className="new-member-input"
+                                    onKeyDown={(e) => e.key === 'Enter' && handleCreateMember()}
+                                />
+                                <button onClick={handleCreateMember} className="add-btn-primary">
+                                    <Plus size={18} />
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
+
+const StatCard = ({ icon: Icon, label, value, delay }) => (
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay, duration: 0.5 }}
+        className="stat-card"
+    >
+        <div className="stat-icon-wrapper">
+            <Icon size={20} />
+        </div>
+        <div>
+            <div className="stat-label">{label}</div>
+            <div className="stat-value">{value}</div>
+        </div>
+    </motion.div>
+);
 
 export default Admin;

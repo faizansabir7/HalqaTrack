@@ -1,7 +1,8 @@
+/* Meeting Editor - Editorial Style */
 .meeting-editor {
     max-width: 900px;
-    /* Slightly wider for modern feel */
     margin: 0 auto;
+    padding-bottom: 5rem;
     animation: fadeIn 0.4s ease-out;
 }
 
@@ -20,10 +21,10 @@
 .editor-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 3rem;
+    align-items: flex-start;
+    margin-bottom: 4rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .back-btn-simple {
@@ -33,9 +34,13 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     cursor: pointer;
     transition: color 0.2s;
+    margin-bottom: 1rem;
+    border: none;
 }
 
 .back-btn-simple:hover {
@@ -43,24 +48,28 @@
 }
 
 .btn-save {
-    background: linear-gradient(135deg, var(--color-primary), #1d4ed8);
-    color: white;
-    padding: 0.85rem 2rem;
+    background: white;
+    color: black;
+    border: 1px solid white;
+    padding: 0.75rem 2rem;
     border-radius: 99px;
     font-weight: 600;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
     display: flex;
     align-items: center;
     gap: 0.5rem;
     transition: all 0.2s;
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    cursor: pointer;
 }
 
 .btn-save:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+    background: transparent;
+    color: white;
 }
 
 .section-title {
+    font-family: var(--font-display);
     font-size: 1.5rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
@@ -68,64 +77,64 @@
     color: var(--text-primary);
 }
 
-/* Status Toggles - Segmented Control Style */
+/* Status Toggles - Minimalist Pills */
 .status-toggles {
     display: flex;
     gap: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.03);
-    padding: 0.5rem;
-    border-radius: 99px;
-    /* Pill shape */
-    border: 1px solid var(--border-color);
+    background: transparent;
+    padding: 0;
     margin-bottom: 3rem;
 }
 
 .status-btn {
     flex: 1;
     padding: 0.75rem;
-    border-radius: 99px;
+    border-radius: var(--radius-sm);
     color: var(--text-secondary);
     background: transparent;
     font-weight: 600;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid transparent;
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+    text-transform: uppercase;
 }
 
 .status-btn:hover {
+    border-color: rgba(255, 255, 255, 0.3);
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.02);
 }
 
 .status-btn.completed {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #34d399;
-    border-color: rgba(16, 185, 129, 0.3);
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);
+    background: #10b981;
+    color: white;
+    border-color: #10b981;
 }
 
 .status-btn.missed {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: #f87171;
-    border-color: rgba(239, 68, 68, 0.3);
+    background: #ef4444;
+    color: white;
+    border-color: #ef4444;
 }
 
 .status-btn.pending {
-    background-color: rgba(245, 158, 11, 0.15);
-    color: #fbbf24;
-    border-color: rgba(245, 158, 11, 0.3);
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
 }
 
 /* Content Grid */
 .grid-2-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: 4rem;
 }
 
 @media (max-width: 768px) {
     .grid-2-col {
         grid-template-columns: 1fr;
-        gap: 2rem;
+        gap: 3rem;
     }
 
     .editor-header {
@@ -138,19 +147,13 @@
         width: 100%;
         justify-content: center;
     }
-
-    .status-toggles {
-        flex-direction: column;
-        border-radius: 12px;
-    }
 }
 
 .editor-section {
-    /* Transparent look instead of card */
     background: transparent;
     border: none;
     padding: 0;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0;
 }
 
 .section-header {
@@ -158,68 +161,76 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    border-bottom: none;
-    padding-bottom: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1rem;
 }
 
 .section-title {
     margin-bottom: 0;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .badge {
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 0.25rem 0.75rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.2rem 0.6rem;
     border-radius: 99px;
-    font-size: 0.8rem;
-    font-weight: 500;
+    font-size: 0.7rem;
+    font-weight: 600;
     color: var(--text-secondary);
 }
 
-/* Custom Checkboxes */
+/* Checklist - Clean Rows */
 .checklist {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
 }
 
 .checklist-item {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 1.25rem;
-    background-color: var(--bg-card);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius-md);
+    padding: 1rem 0;
+    background: transparent;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Row dividers */
+    border-radius: 0;
     cursor: pointer;
     transition: all 0.2s;
     user-select: none;
 }
 
-.checklist-item:hover {
-    background-color: var(--bg-card-hover);
-    border-color: rgba(255, 255, 255, 0.1);
-    transform: translateX(4px);
+.checklist-item:first-child {
+    border-top: none;
 }
 
-/* Hidden native input */
+.checklist-item:hover {
+    background: transparent;
+    padding-left: 0.5rem;
+    border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom Checkboxes */
 .checklist-item input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--text-secondary);
-    border-radius: 6px;
+    width: 18px;
+    height: 18px;
+    border: 1px solid var(--text-secondary);
+    border-radius: 0;
+    /* Sharp checkbox */
     margin: 0;
     position: relative;
     transition: all 0.2s;
     flex-shrink: 0;
+    background: transparent;
 }
 
 .checklist-item input[type="checkbox"]:checked {
-    background-color: var(--color-primary);
-    border-color: var(--color-primary);
-    box-shadow: 0 0 10px var(--color-primary-glow);
+    background-color: transparent;
+    border-color: white;
 }
 
 .checklist-item input[type="checkbox"]:checked::after {
@@ -227,87 +238,33 @@
     position: absolute;
     left: 5px;
     top: 1px;
-    width: 5px;
-    height: 10px;
+    width: 4px;
+    height: 9px;
     border: solid white;
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
 }
 
 .item-label {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #d4d4d8;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+.checklist-item input[type="checkbox"]:checked~.item-label {
+    color: white;
 }
 
 .warning-box {
-    background-color: rgba(245, 158, 11, 0.1);
+    background: transparent;
     border: 1px solid var(--color-warning);
     color: #fbbf24;
     padding: 1rem;
-    border-radius: var(--radius-md);
-    margin-top: 2rem;
-    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+    margin-top: 3rem;
+    font-size: 0.85rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
-}
-
-/* Member Management Styles */
-.member-edit-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.member-input {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--border-color);
-    color: var(--text-primary);
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    font-family: var(--font-body);
-}
-
-.member-input:focus {
-    outline: none;
-    border-color: var(--color-primary);
-}
-
-.btn-icon-danger {
-    color: #ef4444;
-    padding: 0.5rem;
-    border-radius: var(--radius-sm);
-    background: rgba(239, 68, 68, 0.1);
-    transition: background 0.2s;
-    cursor: pointer;
-    border: none;
-}
-
-.btn-icon-danger:hover {
-    background: rgba(239, 68, 68, 0.2);
-}
-
-.btn-add-member {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.75rem;
-    margin-top: 1rem;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px dashed var(--border-color);
-    color: var(--text-secondary);
-    border-radius: var(--radius-sm);
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.btn-add-member:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-primary);
-    border-color: var(--text-secondary);
 }

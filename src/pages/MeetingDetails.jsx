@@ -2,64 +2,88 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { WEEKLY_AGENDAS } from '../data/mockData';
-import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target, Trash2, Plus, X, Edit2 } from 'lucide-react';
+import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target } from 'lucide-react';
 import './MeetingDetails.css';
 
 const MeetingDetails = () => {
-    const { meetingId } = useParams();
+    // Note: The route is /meeting/:meetingId, but AreaDetails sends halqa.id
+    // So we treat the param as `halqaId` effectively for this flow.
+    // If we wanted to support direct meeting links, we'd need to detect format.
+    // For now, let's assume the ID passed is the HALQA ID and we find the current week's meeting for it.
+    const { meetingId: paramId } = useParams();
     const navigate = useNavigate();
-    const { meetings, halqas, updateMeeting, updateHalqaMembers } = useData();
-
-    // Find data
-    const meeting = meetings.find(m => m.id === meetingId);
+    const { meetings, halqas, updateMeeting, getOrCreateMeeting } = useData();
 
     // Local state
+    const [meeting, setMeeting] = useState(null);
     const [formData, setFormData] = useState(null);
     const [halqa, setHalqa] = useState(null);
-    const [waitingForMeeting, setWaitingForMeeting] = useState(true);
-    const [isManagingMembers, setIsManagingMembers] = useState(false);
-    const [editedMembers, setEditedMembers] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (meeting) {
-            setFormData(meeting);
-            const h = halqas.find(x => x.id === meeting.halqa_id);
-            if (h) {
-                setHalqa(h);
-                setEditedMembers(h.members || []);
+        const loadMeetingData = async () => {
+            if (!paramId) return;
+
+            setLoading(true);
+            try {
+                // 1. Resolve Halqa
+                // paramId could be halqaId OR meetingId. 
+                // Let's try to find a halqa with this ID first.
+                let targetHalqa = halqas.find(h => h.id === paramId);
+                let targetMeeting = null;
+
+                if (targetHalqa) {
+                    // It IS a Halqa ID, so find/create current week's meeting
+                    targetMeeting = await getOrCreateMeeting(targetHalqa.id);
+                } else {
+                    // It might be a direct meeting ID (legacy or direct link)
+                    targetMeeting = meetings.find(m => m.id === paramId);
+                    if (targetMeeting) {
+                        targetHalqa = halqas.find(h => h.id === targetMeeting.halqa_id);
+                    }
+                }
+
+                if (targetMeeting && targetHalqa) {
+                    setMeeting(targetMeeting);
+                    setFormData(targetMeeting);
+                    setHalqa(targetHalqa);
+                } else {
+                    console.error("Could not resolve meeting or halqa", { paramId });
+                }
+            } catch (err) {
+                console.error("Error loading meeting details", err);
+            } finally {
+                setLoading(false);
             }
-            setWaitingForMeeting(false);
-        } else {
-            // If meeting not found, wait a bit for state to propagate
-            const timer = setTimeout(() => {
-                setWaitingForMeeting(false);
-            }, 2000); // Wait 2 seconds before showing "not found"
-            
-            return () => clearTimeout(timer);
+        };
+
+        if (halqas.length > 0) {
+            loadMeetingData();
         }
-    }, [meeting, halqas]);
+    }, [paramId, halqas, meetings]); // Depend on data context updates
 
     // Handle Loading State
-    if (!meeting || !formData || !halqa) {
-        console.log('MeetingDetails Debug:', {
-            meetingId,
-            hasMeeting: !!meeting,
-            hasFormData: !!formData,
-            hasHalqa: !!halqa,
-            totalMeetings: meetings.length,
-            totalHalqas: halqas.length,
-            waitingForMeeting
-        });
-
+    if (loading) {
         return (
             <div className="container p-8 text-center" style={{ paddingTop: '30vh' }}>
                 <div style={{ marginBottom: '1rem', fontSize: '2rem', fontFamily: 'var(--font-display)' }}>
-                    {waitingForMeeting ? 'LOADING...' : (!meeting ? 'MEETING NOT FOUND' : 'LOADING...')}
+                    LOADING...
                 </div>
                 <p className="text-secondary">
-                    {waitingForMeeting && 'Please wait while the meeting is being prepared...'}
-                    {!waitingForMeeting && !meeting && 'The meeting could not be loaded.'}
-                    {!waitingForMeeting && meeting && !halqa && 'Loading Halqa details...'}
+                    Retrieving meeting details...
+                </p>
+            </div>
+        );
+    }
+
+    if (!meeting || !formData || !halqa) {
+        return (
+            <div className="container p-8 text-center" style={{ paddingTop: '30vh' }}>
+                <div style={{ marginBottom: '1rem', fontSize: '2rem', fontFamily: 'var(--font-display)' }}>
+                    MEETING NOT FOUND
+                </div>
+                <p className="text-secondary">
+                    Could not find meeting data for ID: {paramId}
                 </p>
                 <div style={{ marginTop: '2rem' }}>
                     <button onClick={() => navigate(-1)} className="back-btn-simple" style={{ margin: '0 auto' }}>
@@ -180,51 +204,25 @@ const MeetingDetails = () => {
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                             <Users size={20} className="text-accent" />
                             <h2 className="section-title">ATTENDANCE</h2>
-                            {!isManagingMembers && <span className="badge">{attendanceCount}/{totalMembers}</span>}
+                            <span className="badge">{attendanceCount}/{totalMembers}</span>
                         </div>
-                        <button
-                            className="text-xs text-secondary hover:text-white"
-                            onClick={toggleManageMembers}
-                            style={{ textDecoration: 'underline', cursor: 'pointer', background: 'none', padding: 0 }}
-                        >
-                            {isManagingMembers ? 'DONE' : 'MANAGE MEMBERS'}
-                        </button>
                     </div>
 
-                    {isManagingMembers ? (
-                        <div className="members-editor">
-                            {editedMembers.map(member => (
-                                <div key={member.id} className="member-edit-row">
-                                    <input
-                                        type="text"
-                                        value={member.name}
-                                        onChange={(e) => handleMemberNameChange(member.id, e.target.value)}
-                                        placeholder="Member Name"
-                                        className="member-input"
-                                    />
-                                    <button onClick={() => removeMember(member.id)} className="btn-icon-danger">
-                                        <Trash2 size={16} />
-                                    </button>
-                                </div>
-                            ))}
-                            <button onClick={addMember} className="btn-add-member">
-                                <Plus size={16} /> Add Member
-                            </button>
-                        </div>
-                    ) : (
-                        <div className="checklist">
-                            {halqa.members && halqa.members.map(member => (
-                                <label key={member.id} className="checklist-item">
-                                    <input
-                                        type="checkbox"
-                                        checked={!!(formData.attendance && formData.attendance[member.id])}
-                                        onChange={() => handleAttendanceChange(member.id)}
-                                    />
-                                    <span className="item-label">{member.name}</span>
-                                </label>
-                            ))}
-                        </div>
-                    )}
+                    <div className="checklist">
+                        {halqa.members && halqa.members.map(member => (
+                            <label key={member.id} className="checklist-item">
+                                <input
+                                    type="checkbox"
+                                    checked={!!(formData.attendance && formData.attendance[member.id])}
+                                    onChange={() => handleAttendanceChange(member.id)}
+                                />
+                                <span className="item-label">{member.name}</span>
+                            </label>
+                        ))}
+                        {(!halqa.members || halqa.members.length === 0) && (
+                            <p className="text-secondary text-sm">No members found.</p>
+                        )}
+                    </div>
                 </div>
 
                 <div className="editor-section">
