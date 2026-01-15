@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
-import { FileCheck, AlertCircle, ArrowUpRight, Database } from 'lucide-react';
+import { FileCheck, AlertCircle, ArrowUpRight, Database, Settings } from 'lucide-react';
 import WeekSelector from '../components/WeekSelector';
 import { motion } from 'framer-motion';
 import './Dashboard.css';
@@ -66,6 +66,11 @@ const Dashboard = () => {
                     onNext={() => changeWeek(1)}
                     onToday={goToToday}
                 />
+
+                <Link to="/login" className="admin-link-btn">
+                    <Settings size={16} />
+                    <span>Manage System</span>
+                </Link>
             </motion.div>
 
             <motion.div

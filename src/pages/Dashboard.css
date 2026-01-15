@@ -25,8 +25,35 @@
 
 .controls-bar {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    /* Changed from flex-end to space-between to accommodate Admin button */
+    align-items: center;
     margin-bottom: 2rem;
+    flex-wrap: wrap;
+    /* Allow wrapping on mobile */
+    gap: 1rem;
+}
+
+.admin-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 99px;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.admin-link-btn:hover {
+    color: white;
+    border-color: white;
+    background: rgba(255, 255, 255, 0.05);
 }
 
 .area-list {
@@ -161,7 +188,23 @@
         font-size: 1rem;
     }
 
+    /* DRAMATICALLY SMALLER MOBILE TITLE */
     .hero-title {
-        font-size: clamp(1.8rem, 11vw, 3rem);
+        font-size: clamp(2rem, 8vw, 3rem);
+        /* Max 3rem on mobile, starts at 2rem */
+        letter-spacing: -0.05em;
+    }
+
+    .controls-bar {
+        /* ensure wrapping if needed */
+        flex-direction: column-reverse;
+        /* Put controls on top? or just wrap */
+        align-items: flex-start;
+        margin-bottom: 3rem;
+    }
+
+    .admin-link-btn {
+        width: 100%;
+        justify-content: center;
     }
 }
