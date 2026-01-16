@@ -38,7 +38,7 @@ const AreaDetails = () => {
                     <div className="col-index">#</div>
                     <div className="col-name">HALQA NAME</div>
                     <div className="col-status">STATUS</div>
-                    <div className="col-members">MEMBERS</div>
+                    <div className="col-members">ATTENDANCE</div>
                     <div className="col-action">ACTION</div>
                 </div>
 
@@ -49,6 +49,9 @@ const AreaDetails = () => {
 
                     const attendanceCount = meeting?.attendance ? Object.values(meeting.attendance).filter(Boolean).length : 0;
                     const totalMembers = halqa.members?.length || 0;
+                    const percentage = totalMembers > 0 ? (attendanceCount / totalMembers) * 100 : 0;
+                    const isLowAttendance = percentage < 70;
+                    const attendanceColor = isLowAttendance ? '#ef4444' : '#4ade80'; // Red vs Green
 
                     return (
                         <Link
@@ -62,10 +65,17 @@ const AreaDetails = () => {
                                 <span className={`status-badge ${status}`}>{status}</span>
                             </div>
                             <div className="col-members">
-                                <span style={{ opacity: 0.5, fontSize: '0.8em', marginRight: '4px' }}>ATTENDANCE:</span>
-                                <strong>{attendanceCount}</strong>
-                                <span style={{ margin: '0 2px', opacity: 0.5 }}>/</span>
-                                <span style={{ opacity: 0.7 }}>{totalMembers}</span>
+                                <div style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'baseline',
+                                    gap: '2px',
+                                    color: attendanceColor,
+                                    fontWeight: '700'
+                                }}>
+                                    <span style={{ fontSize: '1.2em' }}>{attendanceCount}</span>
+                                    <span style={{ fontSize: '0.9em', opacity: 0.7 }}>/</span>
+                                    <span style={{ fontSize: '1.2em' }}>{totalMembers}</span>
+                                </div>
                             </div>
                             <div className="col-action">
                                 <span className="btn-manage">MANAGE</span>

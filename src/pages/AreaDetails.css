@@ -246,7 +246,7 @@
 
     /* Add label for members context */
     .col-members::before {
-        content: 'MEMBERS: ';
+        content: 'ATTENDANCE: ';
         font-size: 0.7rem;
         margin-right: 0.5rem;
         opacity: 0.7;
