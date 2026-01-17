@@ -80,6 +80,10 @@ export const DataProvider = ({ children }) => {
         setCurrentWeekStart(getStartOfWeek(new Date()));
     };
 
+    const goToDate = (date) => {
+        setCurrentWeekStart(getStartOfWeek(new Date(date)));
+    };
+
     const updateMeeting = async (meetingId, updates) => {
         // Optimistic update
         setMeetings(prev => prev.map(m => m.id === meetingId ? { ...m, ...updates } : m));
@@ -283,6 +287,7 @@ export const DataProvider = ({ children }) => {
             getAreaStats,
             changeWeek,
             goToToday,
+            goToDate,
             getOrCreateMeeting,
             seedDatabase,
             updateHalqaMembers,

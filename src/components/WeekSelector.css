@@ -45,6 +45,8 @@
     font-size: 1.1rem;
     min-width: 160px;
     justify-content: center;
+    position: relative;
+    /* Crucial for absolute overlay */
 }
 
 .btn-today {

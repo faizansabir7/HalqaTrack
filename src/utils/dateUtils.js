@@ -34,6 +34,15 @@ export const getWeekDisplay = (startDate) => {
     const end = new Date(startDate);
     end.setDate(end.getDate() + 6);
 
-    const options = { month: 'short', day: 'numeric' };
-    return `${startDate.toLocaleDateString('en-US', options)} - ${end.toLocaleDateString('en-US', options)}`;
+    const startOptions = { month: 'short', day: 'numeric' };
+    const endOptions = { month: 'short', day: 'numeric', year: 'numeric' }; // Always show year at the end
+
+    // If years are different, we might want "Dec 28, 2025 - Jan 3, 2026"
+    // specific formatting request: "add an year also in date section"
+
+    if (startDate.getFullYear() !== end.getFullYear()) {
+        return `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} - ${end.toLocaleDateString('en-US', endOptions)}`;
+    }
+
+    return `${startDate.toLocaleDateString('en-US', startOptions)} - ${end.toLocaleDateString('en-US', endOptions)}`;
 };

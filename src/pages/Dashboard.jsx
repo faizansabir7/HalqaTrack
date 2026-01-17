@@ -23,7 +23,7 @@ const item = {
 };
 
 const Dashboard = () => {
-    const { areas, halqas, meetings, getAreaStats, currentWeekStart, changeWeek, goToToday, seedDatabase } = useData();
+    const { areas, halqas, meetings, getAreaStats, currentWeekStart, changeWeek, goToToday, goToDate, seedDatabase } = useData();
 
     if (!areas || areas.length === 0) {
         return (
@@ -67,6 +67,7 @@ const Dashboard = () => {
                     onPrev={() => changeWeek(-1)}
                     onNext={() => changeWeek(1)}
                     onToday={goToToday}
+                    onDateSelect={goToDate}
                 />
 
                 <Link to="/login" className="admin-link-btn">
