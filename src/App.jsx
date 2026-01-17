@@ -5,6 +5,7 @@ import AreaDetails from './pages/AreaDetails';
 import MeetingDetails from './pages/MeetingDetails';
 import Admin from './pages/Admin';
 import Login from './pages/Login';
+import WeeklyReport from './pages/WeeklyReport';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="area/:areaId" element={<AreaDetails />} />
           <Route path="meeting/:meetingId" element={<MeetingDetails />} />
+          <Route path="report" element={<WeeklyReport />} />
 
           <Route path="admin" element={
             <ProtectedRoute>

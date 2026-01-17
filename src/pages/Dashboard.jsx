@@ -40,47 +40,6 @@ const Dashboard = () => {
         );
     }
 
-    const reportRows = areas.flatMap(area => {
-        const areaHalqas = (halqas || []).filter(h => h.area_id === area.id);
-
-        return areaHalqas.map(halqa => {
-            const meeting = (meetings || []).find(m => m.halqa_id === halqa.id);
-            const isHeld = meeting?.status === 'completed';
-
-            // Calculate stats
-            const participation = meeting?.attendance ? Object.values(meeting.attendance).filter(Boolean).length : 0;
-            const strength = halqa.members?.length || 0;
-
-            return (
-                <tr key={halqa.id}>
-                    <td className="cell-center" style={{ width: '50px' }}>
-                        {/* We need a global index, but flatMap makes it tricky. 
-                            CSS counter is better, or just use slice index? 
-                            Let's just use a simple value or skip index for now to prevent crash complexity.
-                            Actually, let's just map afterwards if we need index, or use filtered list index.
-                        */}
-                        #
-                    </td>
-                    <td style={{ backgroundColor: `${area.color}20`, fontWeight: 600, color: 'white' }}>
-                        {area.name}-{halqa.name}
-                    </td>
-                    <td className={isHeld ? 'cell-yes' : 'cell-no'}>
-                        {isHeld ? 'YES' : 'NO'}
-                    </td>
-                    <td className="cell-center">{participation}</td>
-                    <td className="cell-center">{strength}</td>
-                </tr>
-            );
-        });
-    });
-
-    // To add Index properly:
-    const indexedReportRows = reportRows.map((row, idx) => React.cloneElement(row, {},
-        [
-            <td key="idx" className="cell-center">{idx + 1}</td>,
-            ...React.Children.toArray(row.props.children).slice(1)
-        ]
-    ));
 
 
     return (
@@ -160,41 +119,18 @@ const Dashboard = () => {
                 })}
             </motion.div>
 
-            <div className="report-section">
-                <h2 className="report-title">WEEKLY REPORT</h2>
-                <div className="report-table-container">
-                    <table className="report-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>HALQA NAME</th>
-                                <th>HELD</th>
-                                <th>PARTICIPATION</th>
-                                <th>STRENGTH</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {indexedReportRows}
-                        </tbody>
-                    </table>
-                </div>
-
-                {/* Summary Box */}
-                <div className="report-summary">
-                    <div className="summary-row">
-                        <span>TOTAL HALQA HELD LAST WEEK</span>
-                        <span className="summary-value">
-                            {(meetings || []).filter(m => m.status === 'completed' && (halqas || []).some(h => h.id === m.halqa_id)).length}
-                        </span>
-                    </div>
-                    <div className="summary-row">
-                        <span>NO OF HALQAS WITH NO MEETING LAST WEEK</span>
-                        <span className="summary-value">
-                            {(halqas || []).length - (meetings || []).filter(m => m.status === 'completed' && (halqas || []).some(h => h.id === m.halqa_id)).length}
-                        </span>
-                    </div>
-                </div>
-            </div>
+            {/* Weekly Report Button */}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+                className="report-action-container"
+            >
+                <Link to="/report" className="btn-view-report">
+                    <FileCheck size={20} />
+                    <span>VIEW WEEKLY REPORT</span>
+                </Link>
+            </motion.div>
         </div>
     );
 };
