@@ -26,11 +26,9 @@
 .controls-bar {
     display: flex;
     justify-content: space-between;
-    /* Changed from flex-end to space-between to accommodate Admin button */
     align-items: center;
     margin-bottom: 2rem;
     flex-wrap: wrap;
-    /* Allow wrapping on mobile */
     gap: 1rem;
 }
 
@@ -145,10 +143,151 @@
     display: none;
 }
 
+
+/* --- WEEKLY REPORT TABLE STYLES (PREMIUM MINIMALIST) --- */
+.weekly-report-section {
+    margin-top: 8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 4rem;
+}
+
+.report-title {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    margin-bottom: 3rem;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+}
+
+.report-table-container {
+    overflow-x: auto;
+    /* Soft border radius for container */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    font-family: var(--font-body);
+    /* Dark background for the table */
+    background: #000;
+}
+
+.report-table th {
+    /* Minimalist Header: Dark, uppercase, subtle divider */
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    padding: 1.5rem 1rem;
+    text-align: left;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.7rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Center specific headers */
+.report-table th:nth-child(1),
+.report-table th:nth-child(4),
+.report-table th:nth-child(5) {
+    text-align: center;
+}
+
+.report-table td {
+    padding: 1rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    /* Very subtle row lines */
+    vertical-align: middle;
+    color: white;
+    transition: background 0.2s;
+}
+
+/* Row Hover */
+.report-table tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.cell-center {
+    text-align: center;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 1rem;
+    /* Slightly larger numbers */
+    opacity: 0.9;
+}
+
+/* Status Cells - Vibrant but Integrated */
+.cell-yes {
+    color: #4ade80;
+    /* Neon Green Text */
+    background: rgba(74, 222, 128, 0.1);
+    /* Subtle Green Tint */
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.05em;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cell-no {
+    color: #f87171;
+    /* Red Text */
+    background: rgba(248, 113, 113, 0.1);
+    /* Subtle Red Tint */
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.05em;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Summary Box - Editorial Style */
+.report-summary {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 500px;
+    /* Bit wider */
+    margin-top: 3rem;
+    gap: 1.5rem;
+    /* Spacing between rows */
+    border: none;
+    /* Removed border */
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    /* Align text baselines */
+    padding: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+    background: transparent;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.summary-row:last-child {
+    border-bottom: none;
+}
+
+.summary-value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 2rem;
+    /* Big impact numbers */
+    color: white;
+    line-height: 1;
+}
+
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     .area-list-item {
         grid-template-columns: 1fr auto;
-        /* Name + Arrow */
         gap: 0.5rem;
         padding: 2rem 0;
         align-items: center;
@@ -174,31 +313,25 @@
     }
 
     .area-stats {
-        /* Move stats below name */
         display: flex;
         flex-direction: row;
         gap: 1.5rem;
         margin-top: 0.75rem;
         font-size: 0.8rem;
         grid-column: 1 / -1;
-        /* Span full width */
     }
 
     .stat-group .value {
         font-size: 1rem;
     }
 
-    /* DRAMATICALLY SMALLER MOBILE TITLE */
     .hero-title {
         font-size: clamp(2rem, 8vw, 3rem);
-        /* Max 3rem on mobile, starts at 2rem */
         letter-spacing: -0.05em;
     }
 
     .controls-bar {
-        /* ensure wrapping if needed */
         flex-direction: column-reverse;
-        /* Put controls on top? or just wrap */
         align-items: flex-start;
         margin-bottom: 3rem;
     }
@@ -206,5 +339,28 @@
     .admin-link-btn {
         width: 100%;
         justify-content: center;
+    }
+
+    /* Table Mobile fixes */
+
+    .weekly-report-section {
+        margin-top: 4rem;
+        padding-top: 3rem;
+    }
+
+    .report-table-container {
+        border-radius: 0;
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100vw;
+        margin-left: -1rem;
+        /* Pull to edge */
+        padding: 0 1rem;
+        /* Inner padding */
+    }
+
+    .report-table {
+        min-width: 600px;
     }
 }
