@@ -40,8 +40,6 @@ const Dashboard = () => {
         );
     }
 
-
-
     return (
         <div className="dashboard">
             <motion.div
@@ -137,4 +135,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
