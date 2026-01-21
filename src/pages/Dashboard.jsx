@@ -23,19 +23,28 @@ const item = {
 };
 
 const Dashboard = () => {
-    const { areas, halqas, meetings, getAreaStats, currentWeekStart, changeWeek, goToToday, goToDate, seedDatabase } = useData();
+    const { areas, halqas, meetings, getAreaStats, currentWeekStart, changeWeek, goToToday, goToDate, seedDatabase, loading } = useData();
+
+    if (loading) {
+        return (
+            <div className="container flex items-center justify-center" style={{ height: '80vh' }}>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="flex flex-col items-center gap-4"
+                >
+                    <div className="w-12 h-12 border-2 border-t-transparent border-primary rounded-full animate-spin" />
+                    <p className="text-secondary text-sm tracking-widest uppercase">Loading System...</p>
+                </motion.div>
+            </div>
+        );
+    }
 
     if (!areas || areas.length === 0) {
         return (
-            <div className="container p-8 text-center" style={{ paddingTop: '20vh' }}>
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                    <h2 className="text-display text-4xl mb-4">NO DATA FOUND</h2>
-                    <p className="text-secondary mb-8">The void awaits your input.</p>
-                    <button onClick={seedDatabase} className="btn-save flex items-center justify-center gap-2 mx-auto">
-                        <Database size={18} />
-                        INITIALIZE DATABASE
-                    </button>
-                </motion.div>
+            <div className="container flex items-center justify-center text-center" style={{ height: '80vh' }}>
+                <p className="text-secondary opacity-20 text-sm tracking-widest">NO DATA AVAILABLE</p>
             </div>
         );
     }
