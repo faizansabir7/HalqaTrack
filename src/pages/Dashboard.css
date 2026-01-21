@@ -3,24 +3,27 @@
 }
 
 .hero-section {
-    margin-bottom: 5rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 3rem;
+    padding-bottom: 1rem;
+    /* Removed border for cleaner glass look */
 }
 
 .hero-title {
     font-family: var(--font-display);
-    /* Reduced size to ensure single line on mobile and cleaner look */
-    font-size: clamp(2rem, 7vw, 4.5rem);
-    line-height: 1.1;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    line-height: 1;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
     color: var(--text-primary);
     white-space: nowrap;
-    /* Force single line as requested */
     overflow: hidden;
     text-overflow: ellipsis;
+    /* Add a subtle gradient text effect for vibrancy */
+    background: linear-gradient(135deg, var(--text-primary) 30%, var(--color-primary) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .controls-bar {
@@ -36,67 +39,87 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
     border-radius: 99px;
     color: var(--text-secondary);
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.05em;
     text-transform: uppercase;
     text-decoration: none;
     transition: all 0.3s;
+    box-shadow: var(--shadow-sm);
 }
 
 .admin-link-btn:hover {
-    color: white;
-    border-color: white;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .area-list {
     display: flex;
     flex-direction: column;
+    gap: 1.5rem;
+    /* Spacing between glass cards */
 }
 
 .area-list-item-wrapper {
     position: relative;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
+    overflow: visible;
+    /* Allow shadows */
 }
 
 .area-list-item {
     display: grid;
     grid-template-columns: 80px 2fr 2fr 80px;
     align-items: center;
-    padding: 3.5rem 0;
+    padding: 2rem;
     text-decoration: none;
     color: var(--text-primary);
     position: relative;
     z-index: 2;
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* GLASSMORPHISM CARD STYLE */
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
 }
 
-/* Minimalist Hover: No Background, just padding shift & opacity */
+/* Hover Effect: Lift and Glow */
 .area-list-item:hover {
-    padding-left: 2rem;
-    opacity: 0.8;
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    /* Softer, larger shadow */
+    border-color: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.85);
 }
 
 .area-index {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 1.25rem;
+    font-weight: 700;
     color: var(--text-secondary);
-    opacity: 0.5;
+    opacity: 0.4;
 }
 
 .area-name {
     font-family: var(--font-display);
-    font-size: 3.5rem;
-    font-weight: 700;
+    font-size: 2.5rem;
+    /* Slightly smaller for balance */
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: -0.02em;
     line-height: 1;
+    color: var(--text-primary);
 }
 
 .area-stats {
@@ -112,16 +135,18 @@
 }
 
 .stat-group .label {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
+    font-weight: 600;
 }
 
 .stat-group .value {
     font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
 }
 
 .area-action {
@@ -132,13 +157,12 @@
 }
 
 .area-list-item:hover .area-action {
-    color: var(--text-primary);
-    transform: rotate(0);
-    /* Minimalist arrow doesn't need eager rotation */
-    transform: translateX(10px);
+    color: var(--color-primary);
+    transform: translateX(5px) rotate(-45deg);
+    /* Dynamic arrow interaction */
 }
 
-/* Remove the gradient hover bg */
+/* Hide old hover bg */
 .hover-bg {
     display: none;
 }
@@ -150,38 +174,39 @@
     display: flex;
     justify-content: center;
     padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    /* border-top: 1px solid rgba(255, 255, 255, 0.1); // Removed */
 }
 
 .btn-view-report {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 2rem;
-    background: white;
-    color: black;
+    padding: 1.25rem 3rem;
+    background: var(--color-primary);
+    /* Vibrant Blue Button */
+    color: white;
     border-radius: 99px;
-    /* Pill shape */
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
 }
 
 .btn-view-report:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(255, 255, 255, 0.2);
-    background: #f0f0f0;
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(59, 130, 246, 0.6);
+    background: #3b82f6;
+    /* Slightly lighter on hover */
 }
 
 /* Mobile Adjustments */
 @media (max-width: 768px) {
     .area-list-item {
         grid-template-columns: 1fr auto;
-        gap: 0.5rem;
-        padding: 2rem 0;
+        gap: 1rem;
+        padding: 1.5rem;
         align-items: center;
     }
 
@@ -192,40 +217,40 @@
     .area-action {
         display: block;
         transform: rotate(0);
-        font-size: 0.8rem;
+        font-size: 0.9rem;
     }
 
     .area-list-item:hover .area-action {
-        transform: translate(5px, 0);
+        transform: translate(0, 0);
     }
 
     .area-name {
-        font-size: 2rem;
+        font-size: 1.75rem;
         line-height: 1.1;
     }
 
     .area-stats {
         display: flex;
         flex-direction: row;
-        gap: 1.5rem;
-        margin-top: 0.75rem;
-        font-size: 0.8rem;
+        gap: 2rem;
+        margin-top: 0.5rem;
         grid-column: 1 / -1;
     }
 
     .stat-group .value {
-        font-size: 1rem;
+        font-size: 1.25rem;
     }
 
     .hero-title {
-        font-size: clamp(2rem, 8vw, 3rem);
-        letter-spacing: -0.05em;
+        font-size: clamp(2.5rem, 10vw, 4rem);
+        letter-spacing: -0.04em;
     }
 
     .controls-bar {
-        flex-direction: column-reverse;
-        align-items: flex-start;
-        margin-bottom: 3rem;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 2rem;
+        gap: 1.5rem;
     }
 
     .admin-link-btn {
@@ -242,6 +267,5 @@
         width: 100%;
         justify-content: center;
         padding: 1.25rem;
-        /* Larger touch target */
     }
 }

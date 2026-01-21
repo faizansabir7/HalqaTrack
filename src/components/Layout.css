@@ -12,34 +12,45 @@
 }
 
 /* Scroll Containment Setup */
+/* Scroll Containment Setup */
 html,
 body {
     height: 100%;
+    margin: 0;
     overflow: hidden;
-    /* Prevent body scroll */
+    /* Prevent body scroll, container handles it */
 }
 
 .app-layout {
     height: 100vh;
     width: 100%;
     position: relative;
-    overflow: hidden;
-    /* padding: 2rem; REMOVED: Layout handles spacing internally now */
+    background: transparent;
+    /* Body has the gradient */
 }
 
+/* --- FULL WIDTH GLASS NAVBAR --- */
 .fixed-header {
-    position: absolute;
-    /* Changed from fixed to absolute within fixed layout */
-    top: 2rem;
-    left: 2rem;
-    right: 2rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    /* Fixed height */
+
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 2rem;
     z-index: 1000;
-    pointer-events: none;
-    height: 40px;
-    /* Define height for calc logic */
+
+    /* VIBRANT GLASS EFFECT */
+    background: rgba(255, 255, 255, 0.2);
+    /* Highly transparent */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
 .fixed-header a {
@@ -53,35 +64,41 @@ body {
     letter-spacing: -0.02em;
     color: var(--text-primary);
     text-decoration: none;
-    mix-blend-mode: exclusion;
+    display: flex;
+    align-items: center;
 }
 
 .date-display {
     font-family: var(--font-body);
     font-size: 0.9rem;
     color: var(--text-secondary);
+    font-weight: 700;
+    /* Increased from 500 */
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    mix-blend-mode: exclusion;
+    letter-spacing: 0.05em;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 0.4rem 1rem;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Scrollable Container */
+/* Scrollable Main Layout */
 .app-main {
     position: absolute;
-    top: 6rem;
-    /* Header top (2rem) + Header height (~40px) + Gap (~2rem) */
+    top: 70px;
+    /* Match header height */
     left: 0;
     right: 0;
     bottom: 0;
     overflow-y: auto;
     /* Internal scroll */
     padding: 2rem;
-    /* Content padding */
-    padding-top: 2rem;
+    padding-top: 3rem;
+    /* Extra breathing room */
 
-    /* Scrollbar styling for a premium feel */
+    /* Scrollbar styling */
     scrollbar-width: thin;
-    scrollbar-color: var(--border-color) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
 .app-main::-webkit-scrollbar {
@@ -93,44 +110,40 @@ body {
 }
 
 .app-main::-webkit-scrollbar-thumb {
-    background-color: var(--border-color);
+    background-color: rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 }
 
-/* Ensure content is centered max-width */
+/* Center Content */
 .app-main>div {
-    max-width: 1600px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
+/* MOBILE ADJUSTMENTS */
 @media (max-width: 768px) {
     .fixed-header {
-        top: 1rem;
-        left: 1rem;
-        right: 1rem;
+        height: 60px;
+        padding: 0 1rem;
     }
 
     .logo-text {
-        font-size: 1.2rem;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        backdrop-filter: blur(4px);
+        font-size: 1.25rem;
     }
 
     .date-display {
-        font-size: 0.75rem;
-        background: rgba(0, 0, 0, 0.5);
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        backdrop-filter: blur(4px);
+        display: block;
+        font-size: 0.65rem;
+        font-weight: 800;
+        padding: 0.3rem 0.6rem;
+        white-space: nowrap;
     }
 
     .app-main {
-        top: 4.5rem;
-        /* Tighter gap on mobile: 1rem top + ~2rem header + 1.5rem gap */
+        top: 60px;
         padding: 1rem;
+        padding-top: 1.5rem;
         padding-bottom: 6rem;
-        /* Extra padding for bottom */
+        /* Space for bottom nav or scroll end */
     }
 }

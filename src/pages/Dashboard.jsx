@@ -59,7 +59,7 @@ const Dashboard = () => {
             >
                 <h1 className="hero-title">
                     CITY<br />
-                    <span className="text-secondary" style={{ whiteSpace: 'nowrap' }}>OVERVIEW //</span>
+                    <span className="text-secondary" style={{ whiteSpace: 'nowrap' }}>OVERVIEW</span>
                 </h1>
             </motion.div>
 

@@ -13,8 +13,15 @@
     margin-bottom: 4rem;
 }
 
-/* Stats Grid */
-/* Stats Grid - Minimalist */
+.admin-header h1 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+}
+
+/* Stats Grid - Vibrant Glass */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -29,99 +36,129 @@
 }
 
 .stat-card {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     padding: 2rem;
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--glass-shadow);
 }
 
 .stat-card:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.01);
+    transform: translateY(-5px);
+    background: var(--bg-card-hover);
+    border-color: rgba(255, 255, 255, 0.8);
 }
 
 .stat-icon-wrapper {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--color-primary-light);
+    color: var(--color-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
 }
 
 .stat-label {
-    font-family: var(--font-display);
+    font-family: var(--font-body);
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     color: var(--text-secondary);
+    font-weight: 700;
 }
 
 .stat-value {
     font-family: var(--font-display);
     font-size: 2.5rem;
-    font-weight: 500;
+    font-weight: 800;
     line-height: 1;
-    color: white;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
 }
 
 /* Areas List */
 .areas-list {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
 .area-group-container {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: transparent;
 }
 
 .area-accordion-header {
-    background: transparent;
-    padding: 2rem 0;
+    background: var(--bg-card) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 1.5rem 2rem;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: all 0.3s;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: var(--shadow-sm);
 }
 
 .area-accordion-header:hover {
-    opacity: 0.8;
+    background: var(--bg-card-hover) !important;
+    border-color: rgba(255, 255, 255, 0.7);
+    transform: translateY(-2px);
 }
 
-/* .area-count-badge handled via inline styles / specific overrides */
+.area-accordion-header h2 {
+    font-family: var(--font-display) !important;
+    font-weight: 700 !important;
+    color: var(--text-primary) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
 
 .accordion-content {
     overflow: hidden;
 }
 
-/* Halqas List - Editorial Row Style */
+.halqa-count-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+}
+
+/* Halqas List - Vibrant Glass Card View */
 .halqas-grid {
     display: flex;
     flex-direction: column;
-    gap: 0;
-    /* No gap, borders separate them */
-    padding: 0 0 2rem 0;
+    gap: 0.75rem;
+    padding: 1rem 0 2rem 1.5rem;
+    border-left: 2px solid var(--border-color);
+    margin-left: 1rem;
+    margin-top: 0.5rem;
 }
 
 .halqa-card {
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 0;
-    padding: 1.5rem 0;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
     transition: all 0.2s;
     display: flex;
     flex-direction: row;
@@ -131,13 +168,9 @@
 }
 
 .halqa-card:hover {
-    background: transparent;
-    border-bottom-color: rgba(255, 255, 255, 0.2);
-    /* No scale effect, just border highlight */
-    transform: none;
-    box-shadow: none;
-    padding-left: 1rem;
-    /* Subtle shift */
+    background: rgba(255, 255, 255, 0.6);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateX(5px);
 }
 
 .halqa-card-header {
@@ -149,9 +182,10 @@
 
 .halqa-card-header h3 {
     font-family: var(--font-display);
-    font-weight: 500;
+    font-weight: 700;
     font-size: 1.1rem;
-    letter-spacing: 0.02em;
+    color: var(--text-primary);
+    text-transform: uppercase;
 }
 
 .halqa-badge {
@@ -160,21 +194,15 @@
     gap: 0.35rem;
     font-size: 0.7rem;
     color: var(--text-secondary);
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 0.2rem 0.6rem;
+    background: white;
+    padding: 0.25rem 0.75rem;
     border-radius: 99px;
+    font-weight: 600;
 }
 
 .halqa-actions {
     display: flex;
-    gap: 0.75rem;
-    opacity: 0.4;
-    transition: opacity 0.2s;
-}
-
-.halqa-card:hover .halqa-actions {
-    opacity: 1;
+    gap: 0.5rem;
 }
 
 .action-btn {
@@ -182,34 +210,37 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.4rem 0.8rem;
-    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.7rem;
     border-radius: 99px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: white;
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
     transition: all 0.2s;
     cursor: pointer;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 .action-btn:hover {
-    background: white;
-    color: black;
-    border-color: white;
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    transform: scale(1.05);
 }
 
 .action-btn.danger:hover {
-    background: #ef4444;
+    background: var(--color-danger);
     color: white;
-    border-color: #ef4444;
+    border-color: var(--color-danger);
 }
 
 .add-halqa-btn {
     width: 100%;
     margin-top: 1rem;
-    border: 1px dashed rgba(255, 255, 255, 0.1);
-    background: transparent;
-    border-radius: var(--radius-sm);
+    border: 2px dashed var(--border-color);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -218,26 +249,28 @@
     color: var(--text-secondary);
     transition: all 0.2s;
     cursor: pointer;
-    padding: 1.25rem;
-    font-size: 0.9rem;
+    padding: 1rem;
+    font-size: 0.8rem;
     text-transform: uppercase;
+    font-weight: 700;
     letter-spacing: 0.05em;
 }
 
 .add-halqa-btn:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    color: white;
+    background: rgba(255, 255, 255, 0.4);
+    border-color: var(--color-primary);
+    color: var(--color-primary);
 }
 
-/* Modal - Glassmorphism */
+/* Modal - Vibrant Glass */
 .modal-backdrop {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,16 +278,18 @@
 }
 
 .modal-glass {
-    width: 90%;
-    max-width: 500px;
-    background: rgba(10, 10, 10, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 95%;
+    max-width: 550px;
+    background: var(--bg-card);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-lg);
-    padding: 2rem;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    padding: 2.5rem;
+    box-shadow: 0 40px 100px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    height: 80vh;
+    height: 85vh;
 }
 
 .modal-top {
@@ -264,57 +299,73 @@
     margin-bottom: 2rem;
 }
 
+.modal-top h2 {
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+}
+
 .close-btn {
-    background: transparent;
-    border: none;
+    background: white;
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
     cursor: pointer;
-    padding: 0.5rem;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: all 0.2s;
 }
 
 .close-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--color-danger);
     color: white;
+    border-color: var(--color-danger);
+    transform: rotate(90deg);
 }
 
 .member-list-scroll {
     flex: 1;
     overflow-y: auto;
-    padding-right: 0.5rem;
-    margin-bottom: 1.5rem;
+    padding-right: 0.75rem;
+    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 }
 
 .member-item {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 0.75rem;
-    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.5);
     border-radius: var(--radius-md);
-    border: 1px solid transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     transition: all 0.2s;
 }
 
 .member-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .member-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    background: var(--area-north);
+    /* A default vibrant gradient */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 0.8rem;
+    font-weight: 800;
+    font-size: 0.9rem;
     color: white;
 }
 
@@ -323,75 +374,87 @@
     background: transparent;
     border: none;
     color: var(--text-primary);
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-weight: 600;
     outline: none;
 }
 
 .delete-icon {
-    opacity: 0;
-    color: #ef4444;
-    transition: opacity 0.2s;
+    opacity: 0.3;
+    color: var(--color-danger);
+    transition: all 0.2s;
     background: transparent;
     border: none;
     cursor: pointer;
+    padding: 0.5rem;
 }
 
 .member-item:hover .delete-icon {
     opacity: 1;
+    transform: scale(1.1);
 }
 
 .add-member-section {
     display: flex;
-    gap: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    gap: 0.5rem;
+    background: white;
     padding: 0.5rem;
     border-radius: 99px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
 .new-member-input {
     flex: 1;
     background: transparent;
     border: none;
-    padding: 0.5rem 1rem;
-    color: white;
+    padding: 0.5rem 1.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
     outline: none;
 }
 
 .add-btn-primary {
     background: var(--color-primary);
     color: white;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .add-btn-primary:hover {
-    transform: scale(1.05);
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
 }
 
 .edit-input {
-    background: rgba(0, 0, 0, 0.5);
-    border: 1px solid var(--color-primary);
-    color: white;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+    background: white;
+    border: 2px solid var(--color-primary);
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
     outline: none;
+    font-family: var(--font-display);
+    font-weight: 700;
 }
 
 /* Mobile Adjustments for Admin */
 @media (max-width: 768px) {
+    .admin-header h1 {
+        font-size: 2.5rem;
+    }
+
     .halqa-card {
         flex-direction: column;
         align-items: flex-start;
         gap: 1.5rem;
-        padding-bottom: 2rem;
+        padding: 1.5rem;
     }
 
     .halqa-card-header {
@@ -402,26 +465,27 @@
     .halqa-actions {
         width: 100%;
         opacity: 1;
-        /* Always show buttons on mobile */
         justify-content: space-between;
-        flex-wrap: wrap;
+        gap: 0.5rem;
     }
 
     .action-btn {
         flex: 1;
         justify-content: center;
-        padding: 0.6rem 0;
+        padding: 0.8rem 0;
+        font-size: 0.65rem;
     }
 
     .area-accordion-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
+        padding: 1.5rem 1rem;
     }
 
-    .area-accordion-header>div {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+    .area-accordion-header h2 {
+        font-size: 1.25rem !important;
+    }
+
+    .modal-glass {
+        padding: 1.5rem;
+        height: 90vh;
     }
 }

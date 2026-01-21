@@ -114,26 +114,11 @@ const Admin = () => {
                         <div
                             className="area-accordion-header"
                             onClick={() => toggleArea(area.id)}
-                            style={{
-                                borderLeftColor: area.color,
-                                background: `linear-gradient(90deg, ${area.color}15, rgba(10,10,10,0.6))`
-                            }}
+                            style={{ borderLeft: `6px solid ${area.color}` }}
                         >
                             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                <h2 className="text-xl font-display" style={{ margin: 0, color: 'white' }}>{area.name}</h2>
-                                <div style={{
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem',
-                                    padding: '0.25rem 0.75rem',
-                                    borderRadius: '9999px',
-                                    background: `${area.color}20`,
-                                    border: `1px solid ${area.color}40`,
-                                    color: area.color,
-                                    fontSize: '0.75rem',
-                                    fontWeight: 600,
-                                    letterSpacing: '0.05em'
-                                }}>
+                                <h2 className="text-xl font-display" style={{ margin: 0 }}>{area.name}</h2>
+                                <div className="halqa-count-badge" style={{ backgroundColor: `${area.color}15`, color: area.color, borderColor: `${area.color}30` }}>
                                     <Layers size={14} />
                                     <span>{halqas.filter(h => h.area_id === area.id).length} HALQAS</span>
                                 </div>

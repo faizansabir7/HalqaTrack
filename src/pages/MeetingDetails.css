@@ -1,8 +1,15 @@
-/* Meeting Editor - Editorial Style */
+/* Meeting Editor - Vibrant Glass Style */
 .meeting-editor {
     max-width: 900px;
     margin: 0 auto;
+    padding: 2.5rem;
     padding-bottom: 5rem;
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow);
     animation: fadeIn 0.4s ease-out;
 }
 
@@ -21,107 +28,116 @@
 .editor-header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     margin-bottom: 4rem;
     padding-bottom: 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .back-btn-simple {
-    background: none;
+    background: white;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0;
+    padding: 0.6rem 1.25rem;
     font-size: 0.75rem;
-    letter-spacing: 0.1em;
+    font-weight: 700;
+    letter-spacing: 0.05rem;
     text-transform: uppercase;
     cursor: pointer;
-    transition: color 0.2s;
-    margin-bottom: 1rem;
-    border: none;
+    transition: all 0.2s;
+    border-radius: 99px;
+    border: 1px solid var(--border-color);
 }
 
 .back-btn-simple:hover {
-    color: var(--text-primary);
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    transform: translateX(-5px);
 }
 
 .btn-save {
-    background: white;
-    color: black;
-    border: 1px solid white;
-    padding: 0.75rem 2rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 1rem 2.5rem;
     border-radius: 99px;
-    font-weight: 600;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
+    font-weight: 800;
+    font-size: 0.85rem;
+    letter-spacing: 0.1em;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s;
+    gap: 0.75rem;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     cursor: pointer;
+    box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+    text-transform: uppercase;
 }
 
 .btn-save:hover {
-    background: transparent;
-    color: white;
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(79, 70, 229, 0.5);
+    background: #4338CA;
 }
 
 .section-title {
     font-family: var(--font-display);
     font-size: 1.5rem;
-    font-weight: 700;
+    font-weight: 800;
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
     color: var(--text-primary);
+    text-transform: uppercase;
 }
 
-/* Status Toggles - Minimalist Pills */
+/* Status Toggles - Vibrant Pills */
 .status-toggles {
     display: flex;
-    gap: 0.5rem;
-    background: transparent;
-    padding: 0;
-    margin-bottom: 3rem;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.5);
+    padding: 0.5rem;
+    border-radius: 99px;
+    margin-bottom: 4rem;
+    border: 1px solid var(--border-color);
 }
 
 .status-btn {
     flex: 1;
-    padding: 0.75rem;
-    border-radius: var(--radius-sm);
+    padding: 1rem;
+    border-radius: 99px;
     color: var(--text-secondary);
     background: transparent;
-    font-weight: 600;
-    font-size: 0.8rem;
+    font-weight: 800;
+    font-size: 0.75rem;
     letter-spacing: 0.05em;
     transition: all 0.2s;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: none;
     cursor: pointer;
     text-transform: uppercase;
 }
 
 .status-btn:hover {
-    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.8);
     color: var(--text-primary);
 }
 
 .status-btn.completed {
-    background: #10b981;
+    background: var(--color-success);
     color: white;
-    border-color: #10b981;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 .status-btn.missed {
-    background: #ef4444;
+    background: var(--color-danger);
     color: white;
-    border-color: #ef4444;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
 
 .status-btn.pending {
-    background: #f59e0b;
+    background: var(--color-warning);
     color: white;
-    border-color: #f59e0b;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
 }
 
 /* Content Grid */
@@ -132,11 +148,11 @@
 }
 
 @media (max-width: 768px) {
-
-    /* Safe Mobile Padding */
     .meeting-editor {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
+        padding: 1.5rem;
+        margin: 0;
+        border-radius: 0;
+        border: none;
     }
 
     .grid-2-col {
@@ -158,9 +174,6 @@
 
 .editor-section {
     background: transparent;
-    border: none;
-    padding: 0;
-    margin-bottom: 0;
 }
 
 .section-header {
@@ -168,110 +181,110 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 1rem;
 }
 
 .section-title {
     margin-bottom: 0;
     font-size: 1.1rem;
-    text-transform: uppercase;
+    font-weight: 800;
     letter-spacing: 0.05em;
 }
 
 .badge {
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 0.2rem 0.6rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 0.3rem 0.8rem;
     border-radius: 99px;
     font-size: 0.7rem;
-    font-weight: 600;
-    color: var(--text-secondary);
+    font-weight: 700;
+    color: var(--color-primary);
 }
 
 /* Checklist - Clean Rows */
 .checklist {
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 }
 
 .checklist-item {
     display: flex;
     align-items: center;
     gap: 1rem;
-    padding: 1rem 0;
-    background: transparent;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    /* Row dividers */
-    border-radius: 0;
+    padding: 1.25rem;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s;
     user-select: none;
 }
 
-.checklist-item:first-child {
-    border-top: none;
-}
-
 .checklist-item:hover {
-    background: transparent;
-    padding-left: 0.5rem;
-    border-bottom-color: rgba(255, 255, 255, 0.2);
+    background: white;
+    border-color: var(--color-primary);
+    transform: translateX(5px);
 }
 
 /* Custom Checkboxes */
 .checklist-item input[type="checkbox"] {
     appearance: none;
     -webkit-appearance: none;
-    width: 18px;
-    height: 18px;
-    border: 1px solid var(--text-secondary);
-    border-radius: 0;
-    /* Sharp checkbox */
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
     margin: 0;
     position: relative;
     transition: all 0.2s;
     flex-shrink: 0;
-    background: transparent;
+    background: white;
 }
 
 .checklist-item input[type="checkbox"]:checked {
-    background-color: transparent;
-    border-color: white;
+    background-color: var(--color-success);
+    border-color: var(--color-success);
 }
 
 .checklist-item input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 1px;
-    width: 4px;
-    height: 9px;
+    left: 7px;
+    top: 2px;
+    width: 5px;
+    height: 11px;
     border: solid white;
-    border-width: 0 2px 2px 0;
+    border-width: 0 3px 3px 0;
     transform: rotate(45deg);
 }
 
 .item-label {
-    font-size: 0.95rem;
-    font-weight: 400;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--text-secondary);
     transition: color 0.2s;
 }
 
 .checklist-item input[type="checkbox"]:checked~.item-label {
-    color: white;
+    color: var(--text-primary);
+    text-decoration: line-through;
+    opacity: 0.6;
 }
 
 .warning-box {
-    background: transparent;
-    border: 1px solid var(--color-warning);
-    color: #fbbf24;
-    padding: 1rem;
-    border-radius: var(--radius-sm);
+    background: var(--color-danger);
+    color: white;
+    padding: 1.25rem;
+    border-radius: var(--radius-md);
     margin-top: 3rem;
     font-size: 0.85rem;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
+    box-shadow: 0 10px 20px rgba(239, 68, 68, 0.2);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }

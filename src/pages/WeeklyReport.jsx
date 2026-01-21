@@ -23,7 +23,7 @@ const WeeklyReport = () => {
             return (
                 <tr key={halqa.id}>
                     <td className="cell-center" style={{ width: '50px' }}>#</td>
-                    <td style={{ backgroundColor: `${area.color}20`, fontWeight: 600, color: 'white' }}>
+                    <td style={{ backgroundColor: `${area.color}20`, fontWeight: 600, color: 'var(--text-primary)' }}>
                         {halqa.name}
                     </td>
                     <td className={isHeld ? 'cell-yes' : 'cell-no'}>
@@ -57,7 +57,7 @@ const WeeklyReport = () => {
                     <span>BACK TO DASHBOARD</span>
                 </Link>
                 <h1 className="text-display text-4xl mt-4 uppercase">
-                    WEEKLY <span className="text-secondary opacity-50">REPORT //</span>
+                    WEEKLY <span className="text-secondary opacity-50">REPORT</span>
                 </h1>
             </motion.div>
 

@@ -1,42 +1,61 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
 
 :root {
-  /* Akaru-Inspired Palette */
-  --bg-app: #030303;
-  /* Deep Void Black */
-  --bg-card: #0a0a0a;
-  --bg-card-hover: #141414;
+  /* VIBRANT GLASS PALETTE */
 
-  --text-primary: #f0f0f0;
-  --text-secondary: #888888;
-  --text-accent: #ffffff;
-  /* White accents allow bold type to shine */
+  /* Dynamic Mesh Gradient Background (Applied in Body) */
+  --bg-app: #f0f2f5;
+  /* Fallback */
 
-  --color-primary: #3b82f6;
-  --color-primary-glow: rgba(59, 130, 246, 0.5);
+  /* Glass Cards */
+  --bg-card: rgba(255, 255, 255, 0.7);
+  /* Semi-transparent white */
+  --bg-card-hover: rgba(255, 255, 255, 0.85);
+  /* More opaque on hover */
+  --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  --backdrop-blur: blur(12px);
 
-  --font-display: 'Syne', sans-serif;
-  /* For headings */
-  --font-body: 'Manrope', sans-serif;
-  /* For text */
+  /* Typography */
+  --text-primary: #1A1A2E;
+  /* Deep Blue-Black */
+  --text-secondary: #4A4A6A;
+  /* Vibrant Grey-Blue */
+  --text-accent: #FFFFFF;
 
-  --radius-sm: 4px;
-  /* Sharper, more brutalist */
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  /* Brand Colors - NEON & VIBRANT */
+  --color-primary: #4F46E5;
+  /* Electric Indigo */
+  --color-primary-light: #E0E7FF;
 
-  --border-color: #222;
+  --color-success: #10B981;
+  /* Emerald */
+  --color-success-light: #D1FAE5;
 
-  /* Area Colors - Muted Neon */
-  --area-north: #60a5fa;
-  --area-south: #f472b6;
-  --area-east: #a78bfa;
-  --area-west: #34d399;
+  --color-warning: #F59E0B;
+  /* Amber */
+  --color-danger: #EF4444;
+  /* Red */
 
-  /* Semantic Colors */
-  --color-success: #10b981;
-  --color-warning: #f59e0b;
-  --color-danger: #ef4444;
+  /* Fonts */
+  --font-display: 'Outfit', sans-serif;
+  /* Fun, Geometric, Bold */
+  --font-body: 'Inter', sans-serif;
+  /* Clean, Readable */
+
+  /* Spacing */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  /* Super rounded modern look */
+
+  --border-color: rgba(255, 255, 255, 0.6);
+
+  /* Area Colors - VIBRANT GRADIENTS */
+  --area-north: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  --area-south: linear-gradient(135deg, #F472B6 0%, #EC4899 100%);
+  --area-east: linear-gradient(135deg, #A78BFA 0%, #8B5CF6 100%);
+  --area-west: linear-gradient(135deg, #34D399 0%, #10B981 100%);
 }
 
 * {
@@ -47,17 +66,18 @@
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg-app);
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  min-height: 100vh;
 
-  /* Texture */
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  /* VIBRANT MESH GRADIENT BACKGROUND */
+  background-color: #FAACA8;
+  background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 50%, #8BC6EC 100%);
+  background-attachment: fixed;
+  /* Parallax feel */
+  background-size: cover;
 }
-
-/* Removed duplicate body block */
 
 a {
   color: inherit;
@@ -74,11 +94,12 @@ button {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 1.5rem;
 }
 
 .text-sm {
   font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .text-lg {
@@ -87,27 +108,46 @@ button {
 
 .text-xl {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 700;
+  font-family: var(--font-display);
 }
 
 .text-2xl {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+.text-display {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 .text-secondary {
   color: var(--text-secondary);
 }
 
-.text-accent {
-  color: var(--text-accent);
+.text-success {
+  color: var(--color-success);
+  font-weight: 700;
 }
 
+/* GLASS CARD COMPONENT */
 .card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
+  background: var(--bg-card);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: var(--glass-border);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 2rem;
+  box-shadow: var(--glass-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+  background: var(--bg-card-hover);
 }

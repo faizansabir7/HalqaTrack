@@ -27,7 +27,7 @@ const AreaDetails = () => {
                     <span>BACK TO DASHBOARD</span>
                 </Link>
                 <h1 className="text-display text-4xl mt-4 uppercase">
-                    {area.name} <span className="text-secondary opacity-50">// AREA</span>
+                    {area.name} {!area.name.toLowerCase().includes('area') && <span className="text-secondary opacity-50">AREA</span>}
                 </h1>
             </motion.div>
 
