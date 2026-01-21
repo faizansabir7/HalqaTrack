@@ -74,12 +74,7 @@
     border-bottom: 1px solid var(--border-color);
     vertical-align: middle;
     color: var(--text-primary);
-    transition: background 0.2s;
     white-space: nowrap;
-}
-
-.report-table tr:hover td {
-    background: var(--bg-app);
 }
 
 .cell-center {
