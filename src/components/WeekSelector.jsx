@@ -24,11 +24,11 @@ const WeekSelector = ({ currentWeekStart, onPrev, onNext, onToday, onDateSelect 
                     <ChevronLeft size={20} />
                 </button>
 
-                <div className="week-display" style={{ cursor: 'pointer' }}>
+                <div className="week-display" style={{ cursor: 'pointer', position: 'relative' }}>
                     <Calendar size={18} className="text-secondary" />
                     <span>{getWeekDisplay(currentWeekStart)}</span>
 
-                    {/* Hidden Date Input Overlay */}
+                    {/* Hidden Date Input Overlay - Clicked Directly */}
                     <input
                         type="date"
                         onChange={handleDateChange}
@@ -39,7 +39,8 @@ const WeekSelector = ({ currentWeekStart, onPrev, onNext, onToday, onDateSelect 
                             width: '100%',
                             height: '100%',
                             cursor: 'pointer',
-                            zIndex: 10
+                            zIndex: 10,
+                            border: 'none'
                         }}
                     />
                 </div>

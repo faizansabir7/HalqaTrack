@@ -25,7 +25,8 @@ const item = {
 const Dashboard = () => {
     const { areas, halqas, meetings, getAreaStats, currentWeekStart, changeWeek, goToToday, goToDate, seedDatabase, loading } = useData();
 
-    if (loading) {
+    // Only show full-screen loader on initial mount when we have no data
+    if (loading && areas.length === 0) {
         return (
             <div className="container flex items-center justify-center" style={{ height: '80vh' }}>
                 <motion.div
@@ -34,8 +35,8 @@ const Dashboard = () => {
                     transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                     className="flex flex-col items-center gap-4"
                 >
-                    <div className="w-12 h-12 border-2 border-t-transparent border-primary rounded-full animate-spin" />
-                    <p className="text-secondary text-sm tracking-widest uppercase">Loading System...</p>
+                    <div className="w-12 h-12 border-2 border-t-transparent border-primary rounded-full animate-spin" style={{ borderColor: 'var(--color-primary)', borderTopColor: 'transparent' }} />
+                    <p className="text-secondary text-sm tracking-widest uppercase font-bold">Loading System...</p>
                 </motion.div>
             </div>
         );
@@ -88,6 +89,11 @@ const Dashboard = () => {
                 variants={container}
                 initial="hidden"
                 animate="show"
+                style={{
+                    opacity: loading ? 0.6 : 1,
+                    transition: 'opacity 0.3s ease',
+                    pointerEvents: loading ? 'none' : 'auto'
+                }}
             >
                 {areas.map((area, index) => {
                     const stats = getAreaStats(area.id);
