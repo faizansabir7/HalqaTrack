@@ -24,7 +24,10 @@ const WeekSelector = ({ currentWeekStart, onPrev, onNext, onToday, onDateSelect 
                     <ChevronLeft size={20} />
                 </button>
 
-                <div className="week-display" style={{ cursor: 'pointer', position: 'relative' }}>
+                <div
+                    className="week-display"
+                    style={{ cursor: 'pointer', position: 'relative' }}
+                >
                     <Calendar size={18} className="text-secondary" />
                     <span>{getWeekDisplay(currentWeekStart)}</span>
 
@@ -40,6 +43,8 @@ const WeekSelector = ({ currentWeekStart, onPrev, onNext, onToday, onDateSelect 
                             height: '100%',
                             cursor: 'pointer',
                             zIndex: 10,
+                            pointerEvents: 'auto',
+                            background: 'transparent',
                             border: 'none'
                         }}
                     />
