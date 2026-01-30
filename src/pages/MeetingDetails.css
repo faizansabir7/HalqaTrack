@@ -122,6 +122,12 @@
     color: var(--text-primary);
 }
 
+.status-btn.pending {
+    background: var(--color-warning);
+    color: white;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+}
+
 .status-btn.completed {
     background: var(--color-success);
     color: white;
@@ -134,11 +140,44 @@
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
 }
 
-.status-btn.pending {
-    background: var(--color-warning);
-    color: white;
-    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+.reason-section {
+    margin-bottom: 4rem;
+    animation: slideDown 0.3s ease-out;
 }
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.reason-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 1rem;
+    color: var(--text-primary);
+    resize: vertical;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.reason-textarea:focus {
+    border-color: var(--color-danger);
+    box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.1);
+}
+
+
 
 /* Content Grid */
 .grid-2-col {

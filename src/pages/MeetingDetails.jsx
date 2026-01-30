@@ -116,7 +116,16 @@ const MeetingDetails = () => {
     };
 
     const handleStatusChange = (newStatus) => {
-        setFormData(prev => ({ ...prev, status: newStatus }));
+        setFormData(prev => ({
+            ...prev,
+            status: newStatus,
+            // Clear reason if switching away from missed? 
+            // Or keep it. User said "ask for reason".
+        }));
+    };
+
+    const handleReasonChange = (reason) => {
+        setFormData(prev => ({ ...prev, missed_reason: reason }));
     };
 
     const saveChanges = () => {
@@ -198,53 +207,67 @@ const MeetingDetails = () => {
                 </div>
             </div>
 
-            <div className="grid-2-col">
-                <div className="editor-section">
-                    <div className="section-header" style={{ justifyContent: 'space-between' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <Users size={20} className="text-accent" />
-                            <h2 className="section-title">ATTENDANCE</h2>
-                            <span className="badge">{attendanceCount}/{totalMembers}</span>
+            {formData.status === 'missed' && (
+                <div className="editor-section reason-section">
+                    <h2 className="section-title">REASON FOR MISSING</h2>
+                    <textarea
+                        className="reason-textarea"
+                        placeholder="Enter the reason why this meeting was missed..."
+                        value={formData.missed_reason || ''}
+                        onChange={(e) => handleReasonChange(e.target.value)}
+                    />
+                </div>
+            )}
+
+            {formData.status !== 'missed' && (
+                <div className="grid-2-col">
+                    <div className="editor-section">
+                        <div className="section-header" style={{ justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                <Users size={20} className="text-accent" />
+                                <h2 className="section-title">ATTENDANCE</h2>
+                                <span className="badge">{attendanceCount}/{totalMembers}</span>
+                            </div>
+                        </div>
+
+                        <div className="checklist">
+                            {halqa.members && halqa.members.map(member => (
+                                <label key={member.id} className="checklist-item">
+                                    <input
+                                        type="checkbox"
+                                        checked={!!(formData.attendance && formData.attendance[member.id])}
+                                        onChange={() => handleAttendanceChange(member.id)}
+                                    />
+                                    <span className="item-label">{member.name}</span>
+                                </label>
+                            ))}
+                            {(!halqa.members || halqa.members.length === 0) && (
+                                <p className="text-secondary text-sm">No members found.</p>
+                            )}
                         </div>
                     </div>
 
-                    <div className="checklist">
-                        {halqa.members && halqa.members.map(member => (
-                            <label key={member.id} className="checklist-item">
-                                <input
-                                    type="checkbox"
-                                    checked={!!(formData.attendance && formData.attendance[member.id])}
-                                    onChange={() => handleAttendanceChange(member.id)}
-                                />
-                                <span className="item-label">{member.name}</span>
-                            </label>
-                        ))}
-                        {(!halqa.members || halqa.members.length === 0) && (
-                            <p className="text-secondary text-sm">No members found.</p>
-                        )}
+                    <div className="editor-section">
+                        <div className="section-header">
+                            <Target size={20} className="text-accent" />
+                            <h2 className="section-title">AGENDA</h2>
+                            <span className="badge">{agendaCount}/{totalAgenda}</span>
+                        </div>
+                        <div className="checklist">
+                            {currentAgenda.map(item => (
+                                <label key={item.id} className="checklist-item">
+                                    <input
+                                        type="checkbox"
+                                        checked={!!(formData.agenda_status && formData.agenda_status[item.id])}
+                                        onChange={() => handleAgendaChange(item.id)}
+                                    />
+                                    <span className="item-label">{item.label}</span>
+                                </label>
+                            ))}
+                        </div>
                     </div>
                 </div>
-
-                <div className="editor-section">
-                    <div className="section-header">
-                        <Target size={20} className="text-accent" />
-                        <h2 className="section-title">AGENDA</h2>
-                        <span className="badge">{agendaCount}/{totalAgenda}</span>
-                    </div>
-                    <div className="checklist">
-                        {currentAgenda.map(item => (
-                            <label key={item.id} className="checklist-item">
-                                <input
-                                    type="checkbox"
-                                    checked={!!(formData.agenda_status && formData.agenda_status[item.id])}
-                                    onChange={() => handleAgendaChange(item.id)}
-                                />
-                                <span className="item-label">{item.label}</span>
-                            </label>
-                        ))}
-                    </div>
-                </div>
-            </div>
+            )}
 
             {/* Logic for identification of incomplete agendas is implicitly shown by unchecked items */}
             {formData.status === 'completed' && agendaCount < totalAgenda && (
