@@ -14,7 +14,9 @@ const WeeklyReport = () => {
 
         return areaHalqas.map(halqa => {
             const meeting = (meetings || []).find(m => m.halqa_id === halqa.id);
-            const isHeld = meeting?.status === 'completed';
+            const status = meeting?.status || 'pending';
+            const isHeld = status === 'completed';
+            const isMissed = status === 'missed';
 
             // Calculate stats
             const participation = meeting?.attendance ? Object.values(meeting.attendance).filter(Boolean).length : 0;
@@ -26,11 +28,14 @@ const WeeklyReport = () => {
                     <td style={{ backgroundColor: `${area.color}20`, fontWeight: 600, color: 'var(--text-primary)' }}>
                         {halqa.name}
                     </td>
-                    <td className={isHeld ? 'cell-yes' : 'cell-no'}>
-                        {isHeld ? 'YES' : 'NO'}
+                    <td className={isHeld ? 'cell-yes' : isMissed ? 'cell-missed' : 'cell-no'}>
+                        {isHeld ? 'YES' : isMissed ? 'MISSED' : 'NO'}
                     </td>
-                    <td className="cell-center">{participation}</td>
-                    <td className="cell-center">{strength}</td>
+                    <td className="cell-center">{isMissed ? '-' : participation}</td>
+                    <td className="cell-center">{isMissed ? '-' : strength}</td>
+                    <td className="reason-cell">
+                        {isMissed ? (meeting.missed_reason || 'No reason provided') : '-'}
+                    </td>
                 </tr>
             );
         });
@@ -70,6 +75,7 @@ const WeeklyReport = () => {
                             <th>HELD</th>
                             <th>PARTICIPATION</th>
                             <th>STRENGTH</th>
+                            <th>REASON / NOTES</th>
                         </tr>
                     </thead>
                     <tbody>

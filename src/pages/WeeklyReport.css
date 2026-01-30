@@ -64,6 +64,7 @@
 
 /* Center specific headers */
 .report-table th:nth-child(1),
+.report-table th:nth-child(3),
 .report-table th:nth-child(4),
 .report-table th:nth-child(5) {
     text-align: center;
@@ -95,12 +96,33 @@
 }
 
 .cell-no {
+    color: #6b7280;
+    /* Gray 500 */
+    background: #f9fafb;
+    /* Gray 50 */
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 0.05em;
+    border-left: 1px solid var(--border-color);
+}
+
+.cell-missed {
     color: var(--color-danger);
     background: #fef2f2;
     /* Red 50 */
     font-weight: 800;
     text-align: center;
     letter-spacing: 0.05em;
+    border-left: 1px solid var(--border-color);
+}
+
+.reason-cell {
+    white-space: normal !important;
+    min-width: 200px;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    font-style: italic;
     border-left: 1px solid var(--border-color);
 }
 
