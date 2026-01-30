@@ -227,11 +227,11 @@ export const DataProvider = ({ children }) => {
 
         const total = areaHalqaIds.length;
         const completed = areaMeetings.filter(m => m.status === 'completed').length;
-        const missed = areaMeetings.filter(m => m.status === 'missed').length;
-        // Pending = Total - Completed - Missed
-        const pending = total - completed - missed;
+        const cancelled = areaMeetings.filter(m => m.status === 'cancelled').length;
+        // Pending = Total - Completed - Cancelled
+        const pending = total - completed - cancelled;
 
-        return { total, completed, missed, pending };
+        return { total, completed, cancelled, pending };
     };
 
     const seedDatabase = async () => {

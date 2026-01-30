@@ -116,7 +116,7 @@ export const generateInitialMeetings = () => {
         halqaId: halqa.id,
         week: '2023-W42', // Placeholder week
         date: new Date().toISOString(),
-        status: 'pending', // pending, completed, missed
+        status: 'pending', // pending, completed, cancelled
         attendance: {}, // map memberId -> boolean
         agendaStatus: WEEKLY_AGENDAS[1].reduce((acc, item) => ({ ...acc, [item.id]: false }), {}),
         notes: ''

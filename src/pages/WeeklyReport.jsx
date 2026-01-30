@@ -17,7 +17,7 @@ const WeeklyReport = () => {
             const meeting = (meetings || []).find(m => m.halqa_id === halqa.id);
             const status = meeting?.status || 'pending';
             const isHeld = status === 'completed';
-            const isMissed = status === 'missed';
+            const isCancelled = status === 'cancelled';
 
             // Calculate stats
             const participation = meeting?.attendance ? Object.values(meeting.attendance).filter(Boolean).length : 0;
@@ -29,18 +29,18 @@ const WeeklyReport = () => {
                     <td style={{ backgroundColor: `${area.color}20`, fontWeight: 600, color: 'var(--text-primary)' }}>
                         {halqa.name}
                     </td>
-                    <td className={isHeld ? 'cell-yes' : isMissed ? 'cell-missed' : 'cell-no'}>
-                        {isHeld ? 'YES' : isMissed ? (
+                    <td className={isHeld ? 'cell-yes' : isCancelled ? 'cell-cancelled' : 'cell-no'}>
+                        {isHeld ? 'YES' : isCancelled ? (
                             <button
                                 className="btn-reason-trigger"
-                                onClick={() => setSelectedReason({ halqa: halqa.name, reason: meeting.missed_reason })}
+                                onClick={() => setSelectedReason({ halqa: halqa.name, reason: meeting.cancelled_reason })}
                             >
-                                MISSED
+                                CANCELLED
                             </button>
                         ) : 'NO'}
                     </td>
-                    <td className="cell-center">{isMissed ? '-' : participation}</td>
-                    <td className="cell-center">{isMissed ? '-' : strength}</td>
+                    <td className="cell-center">{isCancelled ? '-' : participation}</td>
+                    <td className="cell-center">{isCancelled ? '-' : strength}</td>
                 </tr>
             );
         });
@@ -119,7 +119,7 @@ const WeeklyReport = () => {
                                 <div className="header-info">
                                     <AlertCircle size={20} className="text-danger" />
                                     <div>
-                                        <h3>Missed Meeting Reason</h3>
+                                        <h3>Cancelled Meeting Reason</h3>
                                         <p>{selectedReason.halqa}</p>
                                     </div>
                                 </div>

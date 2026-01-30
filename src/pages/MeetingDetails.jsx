@@ -119,13 +119,13 @@ const MeetingDetails = () => {
         setFormData(prev => ({
             ...prev,
             status: newStatus,
-            // Clear reason if switching away from missed? 
+            // Clear reason if switching away from cancelled? 
             // Or keep it. User said "ask for reason".
         }));
     };
 
     const handleReasonChange = (reason) => {
-        setFormData(prev => ({ ...prev, missed_reason: reason }));
+        setFormData(prev => ({ ...prev, cancelled_reason: reason }));
     };
 
     const saveChanges = () => {
@@ -195,7 +195,7 @@ const MeetingDetails = () => {
             <div className="editor-section">
                 <h2 className="section-title">MEETING STATUS</h2>
                 <div className="status-toggles">
-                    {['completed', 'pending', 'missed'].map(status => (
+                    {['completed', 'pending', 'cancelled'].map(status => (
                         <button
                             key={status}
                             className={`status-btn ${formData.status === status ? status : ''}`}
@@ -207,19 +207,19 @@ const MeetingDetails = () => {
                 </div>
             </div>
 
-            {formData.status === 'missed' && (
+            {formData.status === 'cancelled' && (
                 <div className="editor-section reason-section">
-                    <h2 className="section-title">REASON FOR MISSING</h2>
+                    <h2 className="section-title">REASON FOR CANCELLATION</h2>
                     <textarea
                         className="reason-textarea"
-                        placeholder="Enter the reason why this meeting was missed..."
-                        value={formData.missed_reason || ''}
+                        placeholder="Enter the reason why this meeting was cancelled..."
+                        value={formData.cancelled_reason || ''}
                         onChange={(e) => handleReasonChange(e.target.value)}
                     />
                 </div>
             )}
 
-            {formData.status !== 'missed' && (
+            {formData.status !== 'cancelled' && (
                 <div className="grid-2-col">
                     <div className="editor-section">
                         <div className="section-header" style={{ justifyContent: 'space-between' }}>

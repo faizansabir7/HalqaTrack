@@ -106,14 +106,16 @@
     border-left: 1px solid var(--border-color);
 }
 
-.cell-missed {
+.cell-cancelled {
     color: var(--color-danger);
-    background: #fef2f2;
-    /* Red 50 */
+    background: #fff1f2;
+    /* Light Red */
     font-weight: 800;
     text-align: center;
     letter-spacing: 0.05em;
     border-left: 1px solid var(--border-color);
+    padding: 0 !important;
+    /* Allow button to fill */
 }
 
 .btn-reason-trigger {
@@ -123,17 +125,15 @@
     font: inherit;
     font-weight: inherit;
     cursor: pointer;
-    text-decoration: underline dotted rgba(239, 68, 68, 0.4);
-    text-underline-offset: 4px;
+    text-decoration: none;
     width: 100%;
-    height: 100%;
+    padding: 1rem 0.5rem;
     display: block;
     transition: all 0.2s;
 }
 
 .btn-reason-trigger:hover {
-    background: rgba(239, 68, 68, 0.05);
-    text-decoration: underline solid var(--color-danger);
+    background: rgba(239, 68, 68, 0.08);
 }
 
 /* Modal Styling */

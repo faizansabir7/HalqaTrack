@@ -134,7 +134,7 @@
     box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
-.status-btn.missed {
+.status-btn.cancelled {
     background: var(--color-danger);
     color: white;
     box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);

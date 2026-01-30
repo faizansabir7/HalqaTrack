@@ -157,7 +157,7 @@
     border: 1px solid #FCD34D;
 }
 
-.status-badge.missed {
+.status-badge.cancelled {
     color: #991B1B;
     /* Deep Red */
     background: #FEE2E2;
