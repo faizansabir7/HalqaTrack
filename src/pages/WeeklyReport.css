@@ -116,15 +116,134 @@
     border-left: 1px solid var(--border-color);
 }
 
-.reason-cell {
-    white-space: normal !important;
-    min-width: 200px;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    font-style: italic;
-    border-left: 1px solid var(--border-color);
+.btn-reason-trigger {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+    text-decoration: underline dotted rgba(239, 68, 68, 0.4);
+    text-underline-offset: 4px;
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: all 0.2s;
 }
+
+.btn-reason-trigger:hover {
+    background: rgba(239, 68, 68, 0.05);
+    text-decoration: underline solid var(--color-danger);
+}
+
+/* Modal Styling */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 2rem;
+}
+
+.reason-modal {
+    background: white;
+    width: 100%;
+    max-width: 450px;
+    border-radius: 24px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.header-info {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.header-info h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.header-info p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0.2rem 0 0 0;
+    font-weight: 600;
+}
+
+.btn-close-modal {
+    background: #f3f4f6;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    display: flex;
+}
+
+.btn-close-modal:hover {
+    background: #e5e7eb;
+    color: var(--text-primary);
+    transform: rotate(90deg);
+}
+
+.modal-body {
+    padding: 2rem 1.5rem;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    line-height: 1.6;
+    font-weight: 500;
+    background: #fafafa;
+}
+
+.modal-footer {
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    background: white;
+}
+
+.btn-modal-done {
+    width: 100%;
+    padding: 1rem;
+    background: var(--text-primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-modal-done:hover {
+    background: #000;
+    transform: scale(0.98);
+}
+
+
 
 /* Summary Values */
 .report-summary {
@@ -133,6 +252,7 @@
     width: 100%;
     max-width: 500px;
     gap: 1.5rem;
+    margin-top: 2rem;
 }
 
 .summary-row {
@@ -156,7 +276,6 @@
     line-height: 1;
 }
 
-/* Mobile Adjustments - Revert to Scrollable Table */
 @media (max-width: 768px) {
     .report-table-container {
         width: 100vw;
@@ -166,17 +285,38 @@
         border-left: none;
         border-right: none;
         overflow-x: auto;
-        /* Enable horizontal scrolling */
         box-shadow: none;
-        /* Remove shadow if it was present */
         background: transparent;
-        /* Ensure background is transparent if desired */
     }
 
     .report-table {
-        min-width: 600px;
-        /* Force table width to trigger scroll */
+        min-width: 400px;
+        /* Further reduced min-width as Reason is gone */
     }
 
-    /* Ensure scrollbar is visible/styled if needed, or keep default */
+    .report-table th,
+    .report-table td {
+        padding: 0.8rem 0.6rem;
+    }
+
+    .report-table th:nth-child(1),
+    .report-table td:nth-child(1),
+    .report-table th:nth-child(3),
+    .report-table td:nth-child(3),
+    .report-table th:nth-child(4),
+    .report-table td:nth-child(4),
+    .report-table th:nth-child(5),
+    .report-table td:nth-child(5) {
+        width: 1%;
+        white-space: nowrap;
+    }
+
+    .report-table td:nth-child(2) {
+        white-space: normal;
+        min-width: 120px;
+    }
+
+    .modal-backdrop {
+        padding: 1rem;
+    }
 }

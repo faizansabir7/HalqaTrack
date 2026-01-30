@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
-import { ChevronLeft, FileText } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { ChevronLeft, FileText, X, AlertCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import './WeeklyReport.css';
 
 const WeeklyReport = () => {
     const { areas, halqas, meetings } = useData();
+    const [selectedReason, setSelectedReason] = React.useState(null);
 
     // Logic for generating report rows (Moved from Dashboard)
     const reportRows = areas.flatMap(area => {
@@ -24,18 +25,22 @@ const WeeklyReport = () => {
 
             return (
                 <tr key={halqa.id}>
-                    <td className="cell-center" style={{ width: '50px' }}>#</td>
+                    <td className="cell-center">#</td>
                     <td style={{ backgroundColor: `${area.color}20`, fontWeight: 600, color: 'var(--text-primary)' }}>
                         {halqa.name}
                     </td>
                     <td className={isHeld ? 'cell-yes' : isMissed ? 'cell-missed' : 'cell-no'}>
-                        {isHeld ? 'YES' : isMissed ? 'MISSED' : 'NO'}
+                        {isHeld ? 'YES' : isMissed ? (
+                            <button
+                                className="btn-reason-trigger"
+                                onClick={() => setSelectedReason({ halqa: halqa.name, reason: meeting.missed_reason })}
+                            >
+                                MISSED
+                            </button>
+                        ) : 'NO'}
                     </td>
                     <td className="cell-center">{isMissed ? '-' : participation}</td>
                     <td className="cell-center">{isMissed ? '-' : strength}</td>
-                    <td className="reason-cell">
-                        {isMissed ? (meeting.missed_reason || 'No reason provided') : '-'}
-                    </td>
                 </tr>
             );
         });
@@ -75,7 +80,6 @@ const WeeklyReport = () => {
                             <th>HELD</th>
                             <th>PARTICIPATION</th>
                             <th>STRENGTH</th>
-                            <th>REASON / NOTES</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -99,6 +103,40 @@ const WeeklyReport = () => {
                     </span>
                 </div>
             </div>
+
+            {/* Reason Modal */}
+            <AnimatePresence>
+                {selectedReason && (
+                    <div className="modal-backdrop" onClick={() => setSelectedReason(null)}>
+                        <motion.div
+                            className="reason-modal"
+                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            <div className="modal-header">
+                                <div className="header-info">
+                                    <AlertCircle size={20} className="text-danger" />
+                                    <div>
+                                        <h3>Missed Meeting Reason</h3>
+                                        <p>{selectedReason.halqa}</p>
+                                    </div>
+                                </div>
+                                <button className="btn-close-modal" onClick={() => setSelectedReason(null)}>
+                                    <X size={20} />
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                {selectedReason.reason || "No reason provided by the Area Leader."}
+                            </div>
+                            <div className="modal-footer">
+                                <button className="btn-modal-done" onClick={() => setSelectedReason(null)}>GOT IT</button>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };
