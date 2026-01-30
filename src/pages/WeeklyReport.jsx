@@ -40,7 +40,7 @@ const WeeklyReport = () => {
                         ) : 'NO'}
                     </td>
                     <td className="cell-center">{isCancelled ? '-' : participation}</td>
-                    <td className="cell-center">{isCancelled ? '-' : strength}</td>
+                    <td className="cell-center">{strength}</td>
                 </tr>
             );
         });

@@ -86,6 +86,12 @@
     opacity: 0.9;
 }
 
+/* White line separation between Participation and Strength */
+.report-table th:nth-child(5),
+.report-table td:nth-child(5) {
+    border-left: 2px solid white;
+}
+
 .cell-yes {
     color: var(--color-success);
     background: var(--color-success-light);
