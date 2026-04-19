@@ -36,6 +36,24 @@ const Layout = () => {
                         <Outlet />
                     </motion.div>
                 </AnimatePresence>
+
+                <footer style={{
+                    textAlign: 'center',
+                    padding: '3rem 1rem 2rem',
+                    fontSize: '0.75rem',
+                    color: 'var(--text-secondary)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    opacity: 0.8
+                }}>
+                    <div style={{ height: '2px', width: '30px', background: 'var(--accent-color)', borderRadius: '2px', opacity: 0.5 }}></div>
+                    <div style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                        <span style={{ fontWeight: 500 }}>DEVELOPED BY</span>
+                        <a href="mailto:faizantp7@gmail.com" style={{ textDecoration: 'none', fontWeight: 800, color: 'var(--text-primary)', marginLeft: '0.4rem', letterSpacing: '0.1em', cursor: 'pointer' }}>FAIZAN</a>
+                    </div>
+                </footer>
             </main>
         </div>
     );
