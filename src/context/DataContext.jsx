@@ -217,6 +217,22 @@ export const DataProvider = ({ children }) => {
         }
     };
 
+    const fetchMeetingsByDateRange = async (startDateStr, endDateStr) => {
+        try {
+            const { data, error } = await supabase
+                .from('meetings')
+                .select('*')
+                .gte('week_start_date', startDateStr)
+                .lte('week_start_date', endDateStr);
+
+            if (error) throw error;
+            return data || [];
+        } catch (error) {
+            console.error('Error fetching meetings by date range:', error);
+            return [];
+        }
+    };
+
     const getAreaStats = (areaId) => {
         const areaHalqaIds = halqas.filter(h => h.area_id === areaId).map(h => h.id); // DB snake_case: area_id
         const areaMeetings = meetings.filter(m => areaHalqaIds.includes(m.halqa_id));
@@ -293,7 +309,8 @@ export const DataProvider = ({ children }) => {
             updateHalqaMembers,
             addHalqa,
             updateHalqaName,
-            deleteHalqa
+            deleteHalqa,
+            fetchMeetingsByDateRange
         }}>
             {children}
         </DataContext.Provider>
