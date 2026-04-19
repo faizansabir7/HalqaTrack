@@ -59,8 +59,8 @@ const Admin = () => {
                 };
                 hMeetings.forEach(m => {
                     if (m.status === 'completed') {
-                        const details = getCustomWeekDetails(m.week_start_date);
-                        const type = details.meetingName || 'Other';
+                        const defaultDetails = getCustomWeekDetails(m.week_start_date);
+                        const type = m.custom_agenda_week ? HALQA_MEETING_NAMES[m.custom_agenda_week] : (defaultDetails.meetingName || 'Other');
                         if (halqaTypes[type] !== undefined) {
                             halqaTypes[type] += 1;
                         }
@@ -107,8 +107,8 @@ const Admin = () => {
 
         fetchedMeetings.forEach(m => {
             if (m.status === 'completed') {
-                const details = getCustomWeekDetails(m.week_start_date);
-                const type = details.meetingName || 'Other';
+                const defaultDetails = getCustomWeekDetails(m.week_start_date);
+                const type = m.custom_agenda_week ? HALQA_MEETING_NAMES[m.custom_agenda_week] : (defaultDetails.meetingName || 'Other');
 
                 if (typeSummary[type] !== undefined) {
                     typeSummary[type] += 1;

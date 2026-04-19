@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { WEEKLY_AGENDAS } from '../data/mockData';
-import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target, Plus, Trash2 } from 'lucide-react';
+import { getCustomWeekDetails, HALQA_MEETING_NAMES } from '../utils/dateUtils';
+import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target, Plus, Trash2, Edit3 } from 'lucide-react';
 import './MeetingDetails.css';
 
 const MeetingDetails = () => {
@@ -20,6 +21,7 @@ const MeetingDetails = () => {
     const [halqa, setHalqa] = useState(null);
     const [loading, setLoading] = useState(true);
     const [newCustomAgenda, setNewCustomAgenda] = useState('');
+    const [isEditingType, setIsEditingType] = useState(false);
 
     useEffect(() => {
         const loadMeetingData = async () => {
@@ -197,16 +199,11 @@ const MeetingDetails = () => {
     const totalMembers = halqa.members ? halqa.members.length : 0;
 
     // Determine Agenda Layout based on Week Number
-    // Calculate week number from the date
-    let agendaWeek = 1;
+    let defaultAgendaWeek = 1;
     if (meeting.week_start_date) {
-        const date = new Date(meeting.week_start_date);
-        // Get ISO week number
-        const startOfYear = new Date(date.getFullYear(), 0, 1);
-        const days = Math.floor((date - startOfYear) / (24 * 60 * 60 * 1000));
-        const weekNum = Math.ceil((days + startOfYear.getDay() + 1) / 7);
-        agendaWeek = ((weekNum - 1) % 5) + 1;
+        defaultAgendaWeek = getCustomWeekDetails(meeting.week_start_date).weekNumber;
     }
+    const agendaWeek = formData.custom_agenda_week || defaultAgendaWeek;
     const currentAgenda = WEEKLY_AGENDAS[agendaWeek] || WEEKLY_AGENDAS[1];
 
     const agendaCount = Object.values(formData.agenda_status || {}).filter(Boolean).length;
@@ -220,7 +217,34 @@ const MeetingDetails = () => {
                         <ChevronLeft size={16} /> Cancel
                     </button>
                     <h1 className="text-display text-4xl mt-4">{halqa.name}</h1>
-                    <p className="text-secondary text-sm uppercase tracking-widest mt-1">Week of {meeting.week_start_date}</p>
+                    <div className="text-secondary text-sm uppercase tracking-widest mt-2" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+                        <span>Week of {meeting.week_start_date}</span>
+                        <span>&bull;</span>
+                        {isEditingType ? (
+                            <select
+                                className="admin-input"
+                                style={{ padding: '0.2rem 0.5rem', width: 'auto', background: 'var(--bg-elevated)', border: '1px solid var(--border-color)', color: 'var(--text-primary)' }}
+                                value={agendaWeek}
+                                onChange={(e) => {
+                                    setFormData(prev => ({ ...prev, custom_agenda_week: parseInt(e.target.value) }));
+                                    setIsEditingType(false);
+                                }}
+                                onBlur={() => setIsEditingType(false)}
+                                autoFocus
+                            >
+                                {[1, 2, 3, 4, 5].map(w => (
+                                    <option key={w} value={w}>{HALQA_MEETING_NAMES[w]}</option>
+                                ))}
+                            </select>
+                        ) : (
+                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <span style={{ color: 'var(--text-primary)', fontWeight: 'bold' }}>{HALQA_MEETING_NAMES[agendaWeek]}</span>
+                                <button onClick={() => setIsEditingType(true)} style={{ background: 'transparent', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', display: 'flex' }}>
+                                    <Edit3 size={14} />
+                                </button>
+                            </span>
+                        )}
+                    </div>
                 </div>
                 <button className="btn-save" onClick={saveChanges}>
                     <Save size={16} /> SAVE REPORT
