@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { WEEKLY_AGENDAS } from '../data/mockData';
-import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target } from 'lucide-react';
+import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target, Plus, Trash2 } from 'lucide-react';
 import './MeetingDetails.css';
 
 const MeetingDetails = () => {
@@ -19,6 +19,7 @@ const MeetingDetails = () => {
     const [formData, setFormData] = useState(null);
     const [halqa, setHalqa] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [newCustomAgenda, setNewCustomAgenda] = useState('');
 
     useEffect(() => {
         const loadMeetingData = async () => {
@@ -115,6 +116,40 @@ const MeetingDetails = () => {
         }));
     };
 
+    const handleAddCustomAgenda = () => {
+        if (!newCustomAgenda.trim()) return;
+
+        const newAgenda = {
+            id: `custom_${Date.now()}`,
+            label: newCustomAgenda.trim()
+        };
+
+        setFormData(prev => ({
+            ...prev,
+            custom_agendas: [...(prev.custom_agendas || []), newAgenda],
+            agenda_status: {
+                ...(prev.agenda_status || {}),
+                [newAgenda.id]: true // Add as checked by default since user explicitly takes it
+            }
+        }));
+
+        setNewCustomAgenda('');
+    };
+
+    const handleRemoveCustomAgenda = (idToRemove) => {
+        setFormData(prev => {
+            const updatedCustomAgendas = (prev.custom_agendas || []).filter(item => item.id !== idToRemove);
+            const updatedAgendaStatus = { ...prev.agenda_status };
+            delete updatedAgendaStatus[idToRemove];
+
+            return {
+                ...prev,
+                custom_agendas: updatedCustomAgendas,
+                agenda_status: updatedAgendaStatus
+            };
+        });
+    };
+
     const handleStatusChange = (newStatus) => {
         setFormData(prev => ({
             ...prev,
@@ -175,7 +210,7 @@ const MeetingDetails = () => {
     const currentAgenda = WEEKLY_AGENDAS[agendaWeek] || WEEKLY_AGENDAS[1];
 
     const agendaCount = Object.values(formData.agenda_status || {}).filter(Boolean).length;
-    const totalAgenda = currentAgenda.length;
+    const totalAgenda = currentAgenda.length + (formData.custom_agendas ? formData.custom_agendas.length : 0);
 
     return (
         <div className="meeting-editor">
@@ -264,6 +299,40 @@ const MeetingDetails = () => {
                                     <span className="item-label">{item.label}</span>
                                 </label>
                             ))}
+                            {formData.custom_agendas && formData.custom_agendas.map(item => (
+                                <label key={item.id} className="checklist-item" style={{ display: 'flex', alignItems: 'center' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={!!(formData.agenda_status && formData.agenda_status[item.id])}
+                                        onChange={() => handleAgendaChange(item.id)}
+                                    />
+                                    <span className="item-label" style={{ flex: 1 }}>
+                                        {item.label}
+                                        <span style={{ fontSize: '0.7em', color: 'var(--text-secondary)', marginLeft: '0.5rem' }}>(Custom)</span>
+                                    </span>
+                                    <button
+                                        onClick={(e) => { e.preventDefault(); handleRemoveCustomAgenda(item.id); }}
+                                        style={{ padding: '0.25rem', color: '#ef4444', background: 'transparent', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                                        title="Remove agenda"
+                                    >
+                                        <Trash2 size={16} />
+                                    </button>
+                                </label>
+                            ))}
+                            <div className="add-agenda-section" style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
+                                <input
+                                    type="text"
+                                    value={newCustomAgenda}
+                                    onChange={(e) => setNewCustomAgenda(e.target.value)}
+                                    placeholder="Type new agenda..."
+                                    className="admin-input"
+                                    style={{ flex: 1, padding: '0.5rem 0.8rem', borderRadius: '4px', border: '1px solid var(--border-color)', background: 'var(--bg-elevated)', color: 'var(--text-primary)' }}
+                                    onKeyDown={(e) => e.key === 'Enter' && handleAddCustomAgenda()}
+                                />
+                                <button onClick={handleAddCustomAgenda} className="btn-save" style={{ padding: '0 0.8rem', height: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <Plus size={16} />
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
