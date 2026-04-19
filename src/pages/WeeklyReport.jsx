@@ -1,13 +1,49 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useData } from '../context/DataContext';
-import { ChevronLeft, FileText, X, AlertCircle } from 'lucide-react';
+import { ChevronLeft, FileText, X, AlertCircle, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import * as XLSX from 'xlsx';
 import './WeeklyReport.css';
 
 const WeeklyReport = () => {
     const { areas, halqas, meetings } = useData();
     const [selectedReason, setSelectedReason] = React.useState(null);
+
+    const exportToExcel = () => {
+        const exportData = [];
+
+        areas.forEach(area => {
+            const areaHalqas = (halqas || []).filter(h => h.area_id === area.id);
+
+            areaHalqas.forEach(halqa => {
+                const meeting = (meetings || []).find(m => m.halqa_id === halqa.id);
+                const status = meeting?.status || 'pending';
+                const isHeld = status === 'completed';
+                const isCancelled = status === 'cancelled';
+
+                const participation = meeting?.attendance ? Object.values(meeting.attendance).filter(Boolean).length : 0;
+                const strength = halqa.members?.length || 0;
+
+                exportData.push({
+                    'Area Name': area.name,
+                    'Halqa Name': halqa.name,
+                    'Held': isHeld ? 'YES' : isCancelled ? 'CANCELLED' : 'NO',
+                    'Participation': isCancelled ? '-' : participation,
+                    'Strength': strength,
+                    'Cancelled Reason': isCancelled ? meeting.cancelled_reason : ''
+                });
+            });
+        });
+
+        const worksheet = XLSX.utils.json_to_sheet(exportData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Weekly Report');
+
+        // Generate filename with date
+        const dateStr = new Date().toISOString().split('T')[0];
+        XLSX.writeFile(workbook, `Weekly_Report_${dateStr}.xlsx`);
+    };
 
     // Logic for generating report rows (Moved from Dashboard)
     const reportRows = areas.flatMap(area => {
@@ -62,13 +98,21 @@ const WeeklyReport = () => {
                 transition={{ duration: 0.6 }}
                 className="report-header"
             >
-                <Link to="/" className="back-link">
-                    <ChevronLeft size={20} />
-                    <span>BACK TO DASHBOARD</span>
-                </Link>
-                <h1 className="text-display text-4xl mt-4 uppercase">
-                    WEEKLY <span className="text-secondary opacity-50">REPORT</span>
-                </h1>
+                <div className="report-header-inner">
+                    <div>
+                        <Link to="/" className="back-link">
+                            <ChevronLeft size={20} />
+                            <span>BACK TO DASHBOARD</span>
+                        </Link>
+                        <h1 className="text-display text-4xl mt-4 uppercase">
+                            WEEKLY <span className="text-secondary opacity-50">REPORT</span>
+                        </h1>
+                    </div>
+                    <button className="btn-export" onClick={exportToExcel}>
+                        <Download size={18} />
+                        EXPORT EXCEL
+                    </button>
+                </div>
             </motion.div>
 
             <div className="report-table-container">
