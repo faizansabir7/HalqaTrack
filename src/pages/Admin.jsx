@@ -51,18 +51,20 @@ const Admin = () => {
                 const strength = halqa.members?.length || 0;
 
                 const halqaTypes = {
-                    "Thazkiya Halqa": 0,
-                    "Prasthana Halqa": 0,
-                    "Pothu Halqa": 0,
-                    "Thahreeki Halqa": 0,
-                    "Sargga Halqa": 0
+                    "Thazkiya Halqa": { held: 0, participation: 0 },
+                    "Prasthana Halqa": { held: 0, participation: 0 },
+                    "Pothu Halqa": { held: 0, participation: 0 },
+                    "Thahreeki Halqa": { held: 0, participation: 0 },
+                    "Sargga Halqa": { held: 0, participation: 0 }
                 };
                 hMeetings.forEach(m => {
                     if (m.status === 'completed') {
                         const defaultDetails = getCustomWeekDetails(m.week_start_date);
                         const type = m.custom_agenda_week ? HALQA_MEETING_NAMES[m.custom_agenda_week] : (defaultDetails.meetingName || 'Other');
+                        const partCount = m.attendance ? Object.values(m.attendance).filter(Boolean).length : 0;
                         if (halqaTypes[type] !== undefined) {
-                            halqaTypes[type] += 1;
+                            halqaTypes[type].held += 1;
+                            halqaTypes[type].participation += partCount;
                         }
                     }
                 });
@@ -77,21 +79,26 @@ const Admin = () => {
                     totalParticipation,
                     avgParticipation: heldCount > 0 ? (totalParticipation / heldCount).toFixed(1) : 0,
                     strength,
-                    thazkiyaCount: halqaTypes['Thazkiya Halqa'],
-                    prasthanaCount: halqaTypes['Prasthana Halqa'],
-                    pothuCount: halqaTypes['Pothu Halqa'],
-                    thahreekiCount: halqaTypes['Thahreeki Halqa'],
-                    sarggaCount: halqaTypes['Sargga Halqa']
+                    thazkiyaCount: halqaTypes['Thazkiya Halqa'].held,
+                    thazkiyaPart: halqaTypes['Thazkiya Halqa'].participation,
+                    prasthanaCount: halqaTypes['Prasthana Halqa'].held,
+                    prasthanaPart: halqaTypes['Prasthana Halqa'].participation,
+                    pothuCount: halqaTypes['Pothu Halqa'].held,
+                    pothuPart: halqaTypes['Pothu Halqa'].participation,
+                    thahreekiCount: halqaTypes['Thahreeki Halqa'].held,
+                    thahreekiPart: halqaTypes['Thahreeki Halqa'].participation,
+                    sarggaCount: halqaTypes['Sargga Halqa'].held,
+                    sarggaPart: halqaTypes['Sargga Halqa'].participation
                 });
             });
         });
 
         const typeSummary = {
-            "Thazkiya Halqa": 0,
-            "Prasthana Halqa": 0,
-            "Pothu Halqa": 0,
-            "Thahreeki Halqa": 0,
-            "Sargga Halqa": 0
+            "Thazkiya Halqa": { held: 0, participation: 0 },
+            "Prasthana Halqa": { held: 0, participation: 0 },
+            "Pothu Halqa": { held: 0, participation: 0 },
+            "Thahreeki Halqa": { held: 0, participation: 0 },
+            "Sargga Halqa": { held: 0, participation: 0 }
         };
 
         const areaTypeSummary = {};
@@ -109,9 +116,11 @@ const Admin = () => {
             if (m.status === 'completed') {
                 const defaultDetails = getCustomWeekDetails(m.week_start_date);
                 const type = m.custom_agenda_week ? HALQA_MEETING_NAMES[m.custom_agenda_week] : (defaultDetails.meetingName || 'Other');
+                const meetingParticipation = m.attendance ? Object.values(m.attendance).filter(Boolean).length : 0;
 
                 if (typeSummary[type] !== undefined) {
-                    typeSummary[type] += 1;
+                    typeSummary[type].held += 1;
+                    typeSummary[type].participation += meetingParticipation;
                 }
 
                 const halqa = halqas.find(h => h.id === m.halqa_id);
@@ -149,10 +158,15 @@ const Admin = () => {
             'Halqa Name': row.halqaName,
             'Held': row.held,
             'Thazkiya Held': row.thazkiyaCount,
+            'Thazkiya Part': row.thazkiyaPart,
             'Prasthana Held': row.prasthanaCount,
+            'Prasthana Part': row.prasthanaPart,
             'Pothu Held': row.pothuCount,
+            'Pothu Part': row.pothuPart,
             'Thahreeki Held': row.thahreekiCount,
+            'Thahreeki Part': row.thahreekiPart,
             'Sargga Held': row.sarggaCount,
+            'Sargga Part': row.sarggaPart,
             'Cancelled': row.cancelled,
             'Total Participation': row.totalParticipation,
             'Avg Participation': row.avgParticipation,
@@ -188,10 +202,15 @@ const Admin = () => {
 
         // 3. Type Summary Sheet
         if (durationReportTypeSummary) {
-            const typeSummaryArray = Object.keys(durationReportTypeSummary).map(key => ({
-                'Halqa Type': key,
-                'Total Done': durationReportTypeSummary[key]
-            }));
+            const typeSummaryArray = Object.keys(durationReportTypeSummary).map(key => {
+                const stats = durationReportTypeSummary[key];
+                return {
+                    'Halqa Type': key,
+                    'Halqas Done': stats.held,
+                    'Total Participation': stats.participation,
+                    'Avg Participation': stats.held > 0 ? (stats.participation / stats.held).toFixed(1) : 0
+                };
+            });
             const typeSummaryWorksheet = XLSX.utils.json_to_sheet(typeSummaryArray);
             XLSX.utils.book_append_sheet(workbook, typeSummaryWorksheet, 'Type Summary');
         }
@@ -375,10 +394,18 @@ const Admin = () => {
 
                         {durationReportTypeSummary && (
                             <div className="type-summary-cards" style={{ display: 'flex', gap: '1rem', overflowX: 'auto', paddingBottom: '1rem', marginBottom: '1.5rem' }}>
-                                {Object.entries(durationReportTypeSummary).map(([typeName, count]) => (
-                                    <div key={typeName} style={{ padding: '1rem 1.5rem', background: 'var(--bg-card)', border: `1px solid var(--border-color)`, borderRadius: '12px', minWidth: '140px', flex: '0 0 auto' }}>
-                                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{typeName}</div>
-                                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2, marginTop: '0.25rem' }}>{count} <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>DONE</span></div>
+                                {Object.entries(durationReportTypeSummary).map(([typeName, stats]) => (
+                                    <div key={typeName} style={{ padding: '1rem 1.5rem', background: 'var(--bg-card)', border: `1px solid var(--border-color)`, borderRadius: '12px', minWidth: '150px', flex: '0 0 auto' }}>
+                                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{typeName.replace(' Halqa', '')}</div>
+                                        <div style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', lineHeight: 1.2, marginTop: '0.25rem' }}>
+                                            {stats.held} <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)' }}>DONE</span>
+                                        </div>
+                                        {stats.held > 0 && (
+                                            <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <Users size={14} />
+                                                {stats.participation} <span style={{ opacity: 0.7 }}>({(stats.participation / stats.held).toFixed(1)} avg)</span>
+                                            </div>
+                                        )}
                                     </div>
                                 ))}
                             </div>
@@ -391,11 +418,11 @@ const Admin = () => {
                                         <th>AREA</th>
                                         <th>HALQA</th>
                                         <th>HELD</th>
-                                        <th title="Thazkiya Held">THAZ</th>
-                                        <th title="Prasthana Held">PRAS</th>
-                                        <th title="Pothu Held">POTHU</th>
-                                        <th title="Thahreeki Held">THAH</th>
-                                        <th title="Sargga Held">SARG</th>
+                                        <th title="Thazkiya Held (Participation)">THAZ <br /><span style={{ fontSize: '0.65rem', fontWeight: 'normal' }}>H (P)</span></th>
+                                        <th title="Prasthana Held (Participation)">PRAS <br /><span style={{ fontSize: '0.65rem', fontWeight: 'normal' }}>H (P)</span></th>
+                                        <th title="Pothu Held (Participation)">POTHU <br /><span style={{ fontSize: '0.65rem', fontWeight: 'normal' }}>H (P)</span></th>
+                                        <th title="Thahreeki Held (Participation)">THAH <br /><span style={{ fontSize: '0.65rem', fontWeight: 'normal' }}>H (P)</span></th>
+                                        <th title="Sargga Held (Participation)">SARG <br /><span style={{ fontSize: '0.65rem', fontWeight: 'normal' }}>H (P)</span></th>
                                         <th>CANCELLED</th>
                                         <th>PARTICIPATION (AVG)</th>
                                         <th>STRENGTH</th>
@@ -407,11 +434,21 @@ const Admin = () => {
                                             <td style={{ color: row.areaColor, fontWeight: 700 }}>{row.areaName}</td>
                                             <td style={{ fontWeight: 600 }}>{row.halqaName}</td>
                                             <td className="cell-yes">{row.held}</td>
-                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.thazkiyaCount > 0 ? 1 : 0.3 }}>{row.thazkiyaCount}</td>
-                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.prasthanaCount > 0 ? 1 : 0.3 }}>{row.prasthanaCount}</td>
-                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.pothuCount > 0 ? 1 : 0.3 }}>{row.pothuCount}</td>
-                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.thahreekiCount > 0 ? 1 : 0.3 }}>{row.thahreekiCount}</td>
-                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.sarggaCount > 0 ? 1 : 0.3 }}>{row.sarggaCount}</td>
+                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.thazkiyaCount > 0 ? 1 : 0.3 }}>
+                                                {row.thazkiyaCount > 0 ? `${row.thazkiyaCount} (${row.thazkiyaPart})` : row.thazkiyaCount}
+                                            </td>
+                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.prasthanaCount > 0 ? 1 : 0.3 }}>
+                                                {row.prasthanaCount > 0 ? `${row.prasthanaCount} (${row.prasthanaPart})` : row.prasthanaCount}
+                                            </td>
+                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.pothuCount > 0 ? 1 : 0.3 }}>
+                                                {row.pothuCount > 0 ? `${row.pothuCount} (${row.pothuPart})` : row.pothuCount}
+                                            </td>
+                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.thahreekiCount > 0 ? 1 : 0.3 }}>
+                                                {row.thahreekiCount > 0 ? `${row.thahreekiCount} (${row.thahreekiPart})` : row.thahreekiCount}
+                                            </td>
+                                            <td className="cell-center" style={{ fontSize: '0.8rem', opacity: row.sarggaCount > 0 ? 1 : 0.3 }}>
+                                                {row.sarggaCount > 0 ? `${row.sarggaCount} (${row.sarggaPart})` : row.sarggaCount}
+                                            </td>
                                             <td className={row.cancelled > 0 ? "cell-cancelled" : "cell-center"}>{row.cancelled}</td>
                                             <td className="cell-center">{row.totalParticipation} ({row.avgParticipation})</td>
                                             <td className="cell-center">{row.strength}</td>
