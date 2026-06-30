@@ -21,9 +21,12 @@ CREATE TABLE meetings (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   halqa_id UUID REFERENCES halqas(id),
   week_start_date DATE NOT NULL,
-  status TEXT DEFAULT 'pending', -- pending, completed, missed
+  status TEXT DEFAULT 'pending', -- pending, completed, cancelled
   attendance JSONB DEFAULT '{}'::jsonb,
   agenda_status JSONB DEFAULT '{}'::jsonb,
+  custom_agenda_week INTEGER DEFAULT NULL, -- Override for halqa meeting type (1-5)
+  custom_agendas JSONB DEFAULT '[]'::jsonb, -- User-added agenda items
+  cancelled_reason TEXT DEFAULT NULL,       -- Reason if status = cancelled
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   UNIQUE(halqa_id, week_start_date)
 );

@@ -48,7 +48,15 @@ const MeetingDetails = () => {
 
                 if (targetMeeting && targetHalqa) {
                     setMeeting(targetMeeting);
-                    setFormData(targetMeeting);
+                    // If custom_agenda_week is not set in the DB, default it to the
+                    // date-calculated week so saving always persists the correct type.
+                    const computedDefaultWeek = targetMeeting.week_start_date
+                        ? getCustomWeekDetails(targetMeeting.week_start_date).weekNumber
+                        : 1;
+                    setFormData({
+                        ...targetMeeting,
+                        custom_agenda_week: targetMeeting.custom_agenda_week ?? computedDefaultWeek
+                    });
                     setHalqa(targetHalqa);
                 } else {
                     console.error("Could not resolve meeting or halqa", { paramId });
@@ -166,7 +174,9 @@ const MeetingDetails = () => {
     };
 
     const saveChanges = () => {
-        updateMeeting(meeting.id, formData);
+        // Extract only the fields we want to persist (exclude immutable identifiers)
+        const { id, halqa_id, week_start_date, ...updatableFields } = formData;
+        updateMeeting(meeting.id, updatableFields);
         navigate(-1); // Go back
     };
 
