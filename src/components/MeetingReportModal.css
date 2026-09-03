@@ -1,0 +1,296 @@
+/* Meeting Report Modal — scoped `mrm-` classes so nothing here can
+   collide with the existing tracker styles. */
+
+.mrm-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 26, 46, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1000;
+}
+
+.mrm-panel {
+    width: 100%;
+    max-width: 720px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: var(--radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 24px 60px rgba(31, 38, 135, 0.28);
+    overflow: hidden;
+}
+
+.mrm-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.75rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.mrm-head-text h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.mrm-sub {
+    margin: 0.35rem 0 0;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.mrm-close {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0.4rem;
+    border-radius: 50%;
+    display: flex;
+    transition: all 0.2s;
+}
+
+.mrm-close:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--text-primary);
+}
+
+.mrm-body {
+    padding: 1.5rem 1.75rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+/* Data already available in the tracker */
+.mrm-known {
+    background: var(--color-primary-light);
+    border-radius: var(--radius-md);
+    padding: 1rem 1.15rem;
+    margin-bottom: 1.75rem;
+}
+
+.mrm-known-title {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-primary);
+    margin-bottom: 0.65rem;
+}
+
+.mrm-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.mrm-chip {
+    background: #ffffff;
+    border-radius: 99px;
+    padding: 0.3rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+}
+
+.mrm-hint {
+    margin: 0.85rem 0 0;
+    font-size: 0.78rem;
+    line-height: 1.55;
+    color: var(--text-secondary);
+}
+
+.mrm-hint-top {
+    margin: 0 0 0.9rem;
+}
+
+.mrm-section {
+    margin-bottom: 1.75rem;
+}
+
+.mrm-section-title {
+    margin: 0 0 0.9rem;
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.mrm-field {
+    margin-bottom: 1.05rem;
+}
+
+.mrm-field label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 0.4rem;
+}
+
+.mrm-field input,
+.mrm-field textarea {
+    width: 100%;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: var(--radius-sm);
+    background: #fbfbfd;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    resize: vertical;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.mrm-field input:focus,
+.mrm-field textarea:focus,
+.mrm-report:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+}
+
+.mrm-report {
+    width: 100%;
+    min-height: 46vh;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: var(--radius-md);
+    background: #fbfbfd;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--text-primary);
+    resize: vertical;
+    white-space: pre-wrap;
+    box-sizing: border-box;
+}
+
+.mrm-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 1.1rem 1.75rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+    background: #fafafc;
+}
+
+.mrm-foot-right {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.mrm-btn-ghost,
+.mrm-btn-primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 99px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mrm-btn-ghost {
+    background: #ffffff;
+    color: var(--text-secondary);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 0.65rem 1.15rem;
+}
+
+.mrm-btn-ghost:hover {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.mrm-btn-primary {
+    background: var(--color-primary);
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 8px 18px rgba(79, 70, 229, 0.28);
+}
+
+.mrm-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(79, 70, 229, 0.4);
+}
+
+/* Trigger button on the meeting editor header */
+.btn-generate-report {
+    background: #ffffff;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+    padding: 1rem 1.75rem;
+    border-radius: 99px;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.btn-generate-report:hover {
+    background: var(--color-primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 12px 24px rgba(79, 70, 229, 0.35);
+}
+
+@media (max-width: 640px) {
+    .mrm-backdrop {
+        padding: 0;
+    }
+
+    .mrm-panel {
+        max-height: 100vh;
+        height: 100%;
+        border-radius: 0;
+    }
+
+    .mrm-head,
+    .mrm-body,
+    .mrm-foot {
+        padding-left: 1.15rem;
+        padding-right: 1.15rem;
+    }
+
+    .mrm-foot {
+        flex-wrap: wrap;
+    }
+
+    .mrm-foot-right {
+        flex: 1;
+        justify-content: flex-end;
+    }
+}

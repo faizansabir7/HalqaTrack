@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useData } from '../context/DataContext';
 import { WEEKLY_AGENDAS } from '../data/mockData';
 import { getCustomWeekDetails, HALQA_MEETING_NAMES } from '../utils/dateUtils';
-import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target, Plus, Trash2, Edit3 } from 'lucide-react';
+import { ChevronLeft, UserCheck, CheckSquare, Save, Users, Target, Plus, Trash2, Edit3, FileText } from 'lucide-react';
+import MeetingReportModal from '../components/MeetingReportModal';
 import './MeetingDetails.css';
 
 const MeetingDetails = () => {
@@ -13,7 +14,7 @@ const MeetingDetails = () => {
     // For now, let's assume the ID passed is the HALQA ID and we find the current week's meeting for it.
     const { meetingId: paramId } = useParams();
     const navigate = useNavigate();
-    const { meetings, halqas, updateMeeting, getOrCreateMeeting } = useData();
+    const { meetings, halqas, updateMeeting, getOrCreateMeeting, saveMeetingReportAnswers } = useData();
 
     // Local state
     const [meeting, setMeeting] = useState(null);
@@ -22,6 +23,8 @@ const MeetingDetails = () => {
     const [loading, setLoading] = useState(true);
     const [newCustomAgenda, setNewCustomAgenda] = useState('');
     const [isEditingType, setIsEditingType] = useState(false);
+    // Optional report-generation feature (does not affect the tracker form state)
+    const [showReportModal, setShowReportModal] = useState(false);
 
     useEffect(() => {
         const loadMeetingData = async () => {
@@ -174,8 +177,9 @@ const MeetingDetails = () => {
     };
 
     const saveChanges = () => {
-        // Extract only the fields we want to persist (exclude immutable identifiers)
-        const { id, halqa_id, week_start_date, ...updatableFields } = formData;
+        // Extract only the fields we want to persist (exclude immutable identifiers).
+        // report_answers is owned by the optional report feature and saved separately.
+        const { id, halqa_id, week_start_date, report_answers, ...updatableFields } = formData;
         updateMeeting(meeting.id, updatableFields);
         navigate(-1); // Go back
     };
@@ -256,9 +260,20 @@ const MeetingDetails = () => {
                         )}
                     </div>
                 </div>
-                <button className="btn-save" onClick={saveChanges}>
-                    <Save size={16} /> SAVE REPORT
-                </button>
+                <div className="editor-header-actions">
+                    {formData.status !== 'cancelled' && (
+                        <button
+                            className="btn-generate-report"
+                            onClick={() => setShowReportModal(true)}
+                            title="Optional: build a Malayalam meeting report from this data"
+                        >
+                            <FileText size={16} /> Generate Meeting Report
+                        </button>
+                    )}
+                    <button className="btn-save" onClick={saveChanges}>
+                        <Save size={16} /> SAVE REPORT
+                    </button>
+                </div>
             </div>
 
             <div className="editor-section">
@@ -370,6 +385,19 @@ const MeetingDetails = () => {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {showReportModal && (
+                <MeetingReportModal
+                    halqa={halqa}
+                    meeting={{ ...meeting, ...formData }}
+                    weekNumber={agendaWeek}
+                    agendaStatus={formData.agenda_status || {}}
+                    customAgendas={formData.custom_agendas || []}
+                    initialAnswers={meeting.report_answers || {}}
+                    onPersist={(answers) => saveMeetingReportAnswers(meeting.id, answers)}
+                    onClose={() => setShowReportModal(false)}
+                />
             )}
 
             {/* Logic for identification of incomplete agendas is implicitly shown by unchecked items */}

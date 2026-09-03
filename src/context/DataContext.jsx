@@ -105,6 +105,25 @@ export const DataProvider = ({ children }) => {
         }
     };
 
+    // Optional "Generate Meeting Report" feature: persists the extra descriptive
+    // answers alongside the meeting. Deliberately fault-tolerant and isolated —
+    // if the `report_answers` column has not been migrated yet, the report still
+    // works for the session and no other tracker save is affected.
+    const saveMeetingReportAnswers = async (meetingId, answers) => {
+        // No optimistic state mutation on purpose: the meetings array feeds the
+        // meeting editor, and re-rendering it mid-edit would reset unsaved work.
+        try {
+            const { error } = await supabase
+                .from('meetings')
+                .update({ report_answers: answers })
+                .eq('id', meetingId);
+
+            if (error) throw error;
+        } catch (error) {
+            console.warn('[saveMeetingReportAnswers] Could not persist report answers:', error.message);
+        }
+    };
+
     const updateHalqaMembers = async (halqaId, newMembers) => {
         // Optimistic update
         setHalqas(prev => prev.map(h => h.id === halqaId ? { ...h, members: newMembers } : h));
@@ -311,6 +330,7 @@ export const DataProvider = ({ children }) => {
             getOrCreateMeeting,
             seedDatabase,
             updateHalqaMembers,
+            saveMeetingReportAnswers,
             addHalqa,
             updateHalqaName,
             deleteHalqa,

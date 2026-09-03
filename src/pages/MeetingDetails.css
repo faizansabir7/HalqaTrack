@@ -327,3 +327,13 @@
     text-transform: uppercase;
     letter-spacing: 0.02em;
 }
+
+/* Header action group — keeps SAVE REPORT alongside the optional
+   "Generate Meeting Report" trigger. */
+.editor-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
