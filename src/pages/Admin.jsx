@@ -221,6 +221,56 @@ const Admin = () => {
         XLSX.writeFile(workbook, `Admin_Report_${safeStartDate}_to_${safeEndDate}.xlsx`);
     };
 
+    const exportAllMembers = () => {
+        const memberRows = [];
+        const halqaSummary = [];
+        const areaSummary = [];
+
+        areas.forEach(area => {
+            const areaHalqas = halqas.filter(h => h.area_id === area.id);
+            let areaMemberCount = 0;
+
+            areaHalqas.forEach(halqa => {
+                const members = halqa.members || [];
+                areaMemberCount += members.length;
+
+                members.forEach(member => {
+                    memberRows.push({
+                        'Sl No': memberRows.length + 1,
+                        'Area Name': area.name,
+                        'Halqa Name': halqa.name,
+                        'Member Name': member.name
+                    });
+                });
+
+                halqaSummary.push({
+                    'Area Name': area.name,
+                    'Halqa Name': halqa.name,
+                    'Total Members': members.length
+                });
+            });
+
+            areaSummary.push({
+                'Area Name': area.name,
+                'Total Halqas': areaHalqas.length,
+                'Total Members': areaMemberCount
+            });
+        });
+
+        if (memberRows.length === 0) {
+            alert('No members found to export.');
+            return;
+        }
+
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(memberRows), 'All Members');
+        XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(halqaSummary), 'Halqa Summary');
+        XLSX.utils.book_append_sheet(workbook, XLSX.utils.json_to_sheet(areaSummary), 'Area Summary');
+
+        const today = formatDateToDDMMYYYY(new Date().toISOString().split('T')[0]);
+        XLSX.writeFile(workbook, `Members_List_${today}.xlsx`);
+    };
+
     // Stats Calculation
     const totalAreas = areas.length;
     const totalHalqas = halqas.length;
@@ -306,7 +356,14 @@ const Admin = () => {
             <div className="stats-grid">
                 <StatCard icon={Layers} label="TOTAL AREAS" value={totalAreas} delay={0.1} />
                 <StatCard icon={Activity} label="ACTIVE HALQAS" value={totalHalqas} delay={0.2} />
-                <StatCard icon={Users} label="TOTAL MEMBERS" value={totalMembers} delay={0.3} />
+                <StatCard
+                    icon={Users}
+                    label="TOTAL MEMBERS"
+                    value={totalMembers}
+                    delay={0.3}
+                    actionLabel="EXPORT EXCEL"
+                    onAction={exportAllMembers}
+                />
             </div>
 
             {/* Custom Duration Report Section */}
@@ -618,7 +675,7 @@ const Admin = () => {
     );
 };
 
-const StatCard = ({ icon: Icon, label, value, delay }) => (
+const StatCard = ({ icon: Icon, label, value, delay, actionLabel, onAction }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -632,6 +689,12 @@ const StatCard = ({ icon: Icon, label, value, delay }) => (
             <div className="stat-label">{label}</div>
             <div className="stat-value">{value}</div>
         </div>
+        {onAction && (
+            <button className="stat-action-btn" onClick={onAction} title={actionLabel}>
+                <Download size={16} />
+                {actionLabel}
+            </button>
+        )}
     </motion.div>
 );
 

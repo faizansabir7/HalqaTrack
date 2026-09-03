@@ -88,15 +88,19 @@ export const DataProvider = ({ children }) => {
         // Optimistic update
         setMeetings(prev => prev.map(m => m.id === meetingId ? { ...m, ...updates } : m));
 
+        console.log('[updateMeeting] Saving to DB:', { meetingId, updates });
+
         try {
-            const { error } = await supabase
+            const { data, error } = await supabase
                 .from('meetings')
                 .update(updates)
-                .eq('id', meetingId);
+                .eq('id', meetingId)
+                .select();
 
             if (error) throw error;
+            console.log('[updateMeeting] Supabase response:', data);
         } catch (error) {
-            console.error('Error updating meeting:', error);
+            console.error('[updateMeeting] Error updating meeting:', error);
             // Revert on error (implementation skipped for brevity)
         }
     };
